@@ -1,0 +1,109 @@
+import { ArrowRight, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import heroImage from "@/assets/hero-family.jpg";
+
+const Hero = () => {
+  const benefits = [
+    "Sin comisiones ocultas",
+    "Asesoría personalizada",
+    "Las mejores condiciones",
+  ];
+
+  return (
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/40" />
+      </div>
+
+      {/* Content */}
+      <div className="container relative z-10 mx-auto px-4 pt-32 pb-20">
+        <div className="max-w-2xl">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6 animate-fade-up">
+            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+            <span className="text-sm text-primary-foreground/90">
+              Más de 2.000 familias han encontrado su hogar con nosotros
+            </span>
+          </div>
+
+          {/* Headline */}
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground leading-tight mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
+            Encuentra la hipoteca ideal para tu hogar
+          </h1>
+
+          {/* Subheadline */}
+          <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 animate-fade-up" style={{ animationDelay: "0.2s" }}>
+            Te ayudamos a conseguir las mejores condiciones hipotecarias con un
+            proceso transparente y personalizado. Olvídate del papeleo, nosotros
+            nos encargamos de todo.
+          </p>
+
+          {/* Benefits */}
+          <ul className="flex flex-wrap gap-4 mb-10 animate-fade-up" style={{ animationDelay: "0.3s" }}>
+            {benefits.map((benefit, index) => (
+              <li
+                key={index}
+                className="flex items-center gap-2 text-primary-foreground/90"
+              >
+                <CheckCircle className="h-5 w-5 text-emerald-400" />
+                <span className="text-sm font-medium">{benefit}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{ animationDelay: "0.4s" }}>
+            <Button variant="hero" size="xl">
+              Quiero comprar una vivienda
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button variant="heroOutline" size="xl">
+              Quiero mejorar mi hipoteca
+            </Button>
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="flex items-center gap-8 mt-12 pt-8 border-t border-primary-foreground/20 animate-fade-up" style={{ animationDelay: "0.5s" }}>
+            <div>
+              <div className="text-3xl font-heading font-bold text-primary-foreground">
+                98%
+              </div>
+              <div className="text-sm text-primary-foreground/70">
+                Aprobaciones
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-heading font-bold text-primary-foreground">
+                20+
+              </div>
+              <div className="text-sm text-primary-foreground/70">
+                Entidades bancarias
+              </div>
+            </div>
+            <div>
+              <div className="text-3xl font-heading font-bold text-primary-foreground">
+                0€
+              </div>
+              <div className="text-sm text-primary-foreground/70">
+                Sin costes ocultos
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="w-6 h-10 border-2 border-primary-foreground/40 rounded-full flex justify-center">
+          <div className="w-1.5 h-3 bg-primary-foreground/60 rounded-full mt-2" />
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
