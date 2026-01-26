@@ -38,13 +38,13 @@ const Header = () => {
             <img src={logoMain} alt="CredHipo - Donde tu Hogar Comienza" className="h-10 md:h-14 w-auto" />
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
+          {/* Desktop Navigation - Circular Bar */}
+          <nav className="hidden lg:flex items-center gap-1 bg-card/90 backdrop-blur-md rounded-full px-2 py-1.5 shadow-card border border-border/50">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
+                className="text-sm font-medium text-foreground/80 hover:text-primary hover:bg-primary/10 transition-all px-4 py-2 rounded-full"
               >
                 {link.label}
               </a>
@@ -60,7 +60,7 @@ const Header = () => {
               <Phone className="h-4 w-4" />
               900 000 000
             </a>
-            <Button variant="cta" size="lg">
+            <Button variant="cta" size="lg" className="rounded-full">
               Solicita tu Hipoteca
             </Button>
           </div>
