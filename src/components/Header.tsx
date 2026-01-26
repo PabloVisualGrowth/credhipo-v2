@@ -32,18 +32,10 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3">
-            <img src={logoMain} alt="CredHipo" className="h-12 w-auto" />
-            <div className="hidden sm:block">
-              <span className="text-xl font-heading font-bold text-primary">
-                CredHipo
-              </span>
-              <span className="block text-xs text-muted-foreground -mt-1">
-                Donde tu Hogar Comienza
-              </span>
-            </div>
+          <a href="/" className="flex items-center">
+            <img src={logoMain} alt="CredHipo - Donde tu Hogar Comienza" className="h-10 md:h-14 w-auto" />
           </a>
 
           {/* Desktop Navigation */}

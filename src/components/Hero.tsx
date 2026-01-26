@@ -20,75 +20,75 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="container relative z-10 mx-auto px-4 pt-32 pb-20">
+      <div className="container relative z-10 mx-auto px-4 pt-24 md:pt-32 pb-16 md:pb-20">
         <div className="max-w-2xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6 animate-fade-up">
+          <div className="inline-flex items-center gap-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full px-3 md:px-4 py-1.5 md:py-2 mb-4 md:mb-6 animate-fade-up">
             <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-            <span className="text-sm text-primary-foreground/90">
+            <span className="text-xs md:text-sm text-primary-foreground/90">
               Más de 2.000 familias han encontrado su hogar con nosotros
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground leading-tight mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground leading-tight mb-4 md:mb-6 animate-fade-up" style={{ animationDelay: "0.1s" }}>
             Encuentra la hipoteca ideal para tu hogar
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-primary-foreground/80 mb-8 animate-fade-up" style={{ animationDelay: "0.2s" }}>
+          <p className="text-base md:text-xl text-primary-foreground/80 mb-6 md:mb-8 animate-fade-up" style={{ animationDelay: "0.2s" }}>
             Te ayudamos a conseguir las mejores condiciones hipotecarias con un
             proceso transparente y personalizado. Olvídate del papeleo, nosotros
             nos encargamos de todo.
           </p>
 
           {/* Benefits */}
-          <ul className="flex flex-wrap gap-4 mb-10 animate-fade-up" style={{ animationDelay: "0.3s" }}>
+          <ul className="flex flex-col sm:flex-row flex-wrap gap-2 md:gap-4 mb-8 md:mb-10 animate-fade-up" style={{ animationDelay: "0.3s" }}>
             {benefits.map((benefit, index) => (
               <li
                 key={index}
                 className="flex items-center gap-2 text-primary-foreground/90"
               >
-                <CheckCircle className="h-5 w-5 text-emerald-400" />
-                <span className="text-sm font-medium">{benefit}</span>
+                <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-emerald-400" />
+                <span className="text-xs md:text-sm font-medium">{benefit}</span>
               </li>
             ))}
           </ul>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 animate-fade-up" style={{ animationDelay: "0.4s" }}>
-            <Button variant="hero" size="xl">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 animate-fade-up" style={{ animationDelay: "0.4s" }}>
+            <Button variant="hero" size="lg" className="w-full sm:w-auto text-sm md:text-base">
               Quiero comprar una vivienda
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
             </Button>
-            <Button variant="heroOutline" size="xl">
+            <Button variant="heroOutline" size="lg" className="w-full sm:w-auto text-sm md:text-base">
               Quiero mejorar mi hipoteca
             </Button>
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex items-center gap-8 mt-12 pt-8 border-t border-primary-foreground/20 animate-fade-up" style={{ animationDelay: "0.5s" }}>
-            <div>
-              <div className="text-3xl font-heading font-bold text-primary-foreground">
+          <div className="flex items-center justify-between sm:justify-start gap-4 md:gap-8 mt-8 md:mt-12 pt-6 md:pt-8 border-t border-primary-foreground/20 animate-fade-up" style={{ animationDelay: "0.5s" }}>
+            <div className="text-center sm:text-left">
+              <div className="text-2xl md:text-3xl font-heading font-bold text-primary-foreground">
                 98%
               </div>
-              <div className="text-sm text-primary-foreground/70">
+              <div className="text-xs md:text-sm text-primary-foreground/70">
                 Aprobaciones
               </div>
             </div>
-            <div>
-              <div className="text-3xl font-heading font-bold text-primary-foreground">
+            <div className="text-center sm:text-left">
+              <div className="text-2xl md:text-3xl font-heading font-bold text-primary-foreground">
                 20+
               </div>
-              <div className="text-sm text-primary-foreground/70">
+              <div className="text-xs md:text-sm text-primary-foreground/70">
                 Entidades bancarias
               </div>
             </div>
-            <div>
-              <div className="text-3xl font-heading font-bold text-primary-foreground">
+            <div className="text-center sm:text-left">
+              <div className="text-2xl md:text-3xl font-heading font-bold text-primary-foreground">
                 0€
               </div>
-              <div className="text-sm text-primary-foreground/70">
+              <div className="text-xs md:text-sm text-primary-foreground/70">
                 Sin costes ocultos
               </div>
             </div>

@@ -11,25 +11,25 @@ const values = [
 
 const About = () => {
   return (
-    <section id="nosotros" className="py-20 lg:py-32 bg-background">
+    <section id="nosotros" className="py-12 md:py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center">
           {/* Image */}
           <div className="relative order-2 lg:order-1">
             <div className="relative rounded-2xl overflow-hidden shadow-elevated">
               <img
                 src={consultantImage}
-                alt="Equipo CredHipo asesorando a clientes"
+                alt="Familia feliz en su nuevo hogar"
                 className="w-full h-auto object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
             </div>
             {/* Floating Card */}
-            <div className="absolute -bottom-6 -right-6 bg-card rounded-xl shadow-elevated p-6 max-w-xs hidden md:block">
-              <div className="text-4xl font-heading font-bold text-primary mb-2">
+            <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-card rounded-xl shadow-elevated p-4 md:p-6 max-w-[200px] md:max-w-xs hidden sm:block">
+              <div className="text-2xl md:text-4xl font-heading font-bold text-primary mb-1 md:mb-2">
                 2.000+
               </div>
-              <p className="text-muted-foreground">
+              <p className="text-sm md:text-base text-muted-foreground">
                 Familias han conseguido su hogar con nosotros
               </p>
             </div>
@@ -37,10 +37,10 @@ const About = () => {
 
           {/* Content */}
           <div className="order-1 lg:order-2">
-            <span className="inline-block text-sm font-medium text-secondary uppercase tracking-wider mb-4">
+            <span className="inline-block text-xs md:text-sm font-medium text-secondary uppercase tracking-wider mb-2 md:mb-4">
               Sobre Nosotros
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-6">
+            <h2 className="text-2xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4 md:mb-6">
               Donde tu Hogar Comienza
             </h2>
             
