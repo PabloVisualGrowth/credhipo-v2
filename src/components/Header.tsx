@@ -31,15 +31,15 @@ const Header = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 md:h-20">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-between h-16 md:h-20 bg-card/95 backdrop-blur-md rounded-2xl px-6 shadow-elevated border border-border/30">
           {/* Logo */}
           <a href="/" className="flex items-center">
             <img src={logoMain} alt="CredHipo - Donde tu Hogar Comienza" className="h-10 md:h-14 w-auto" />
           </a>
 
-          {/* Desktop Navigation - Floating Rounded Rectangle */}
-          <nav className="hidden lg:flex items-center gap-1 bg-card/95 backdrop-blur-md rounded-2xl px-4 py-2.5 shadow-elevated border border-border/30">
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
