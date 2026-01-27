@@ -38,13 +38,13 @@ const Header = () => {
             <img src={logoMain} alt="CredHipo - Donde tu Hogar Comienza" className="h-10 md:h-14 w-auto" />
           </a>
 
-          {/* Desktop Navigation - Circular Bar */}
-          <nav className="hidden lg:flex items-center gap-1 bg-card/90 backdrop-blur-md rounded-full px-2 py-1.5 shadow-card border border-border/50">
+          {/* Desktop Navigation - Floating Rounded Rectangle */}
+          <nav className="hidden lg:flex items-center gap-1 bg-card/95 backdrop-blur-md rounded-2xl px-4 py-2.5 shadow-elevated border border-border/30">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-foreground/80 hover:text-primary hover:bg-primary/10 transition-all px-4 py-2 rounded-full"
+                className="text-sm font-medium text-foreground/80 hover:text-primary hover:bg-primary/10 transition-all px-4 py-2 rounded-xl"
               >
                 {link.label}
               </a>
