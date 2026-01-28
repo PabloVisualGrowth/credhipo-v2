@@ -68,7 +68,7 @@ const Hero = () => {
                 key={index}
                 className="flex items-center gap-2 text-primary-foreground/90"
               >
-                <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-accent" />
+                <CheckCircle className="h-4 w-4 md:h-5 md:w-5 text-credipo-lime" />
                 <span className="text-xs md:text-sm font-medium">{benefit}</span>
               </li>
             ))}
