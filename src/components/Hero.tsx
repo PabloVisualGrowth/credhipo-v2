@@ -44,7 +44,7 @@ const Hero = () => {
         <div className="max-w-2xl">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full px-3 py-1.5 mb-4">
-            <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-accent rounded-full animate-pulse" />
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-credipo-lime rounded-full animate-pulse" />
             <span className="text-[10px] md:text-sm text-primary-foreground/90">
               Más de 2.000 familias han encontrado su hogar con nosotros
             </span>
