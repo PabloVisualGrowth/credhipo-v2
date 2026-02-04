@@ -64,7 +64,7 @@ export function TextAnimate({
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: by === "character" ? 0.02 : 0.08,
+        staggerChildren: by === "character" ? 0.015 : 0.04,
         delayChildren: delay,
       },
     },
