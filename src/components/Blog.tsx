@@ -1,6 +1,8 @@
 import { ArrowRight, Calendar, User } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { TextAnimate } from "@/components/ui/text-animate";
 
 const blogPosts = [
   {
@@ -42,61 +44,69 @@ const Blog = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
           <div>
-            <span className="inline-block text-sm font-medium text-secondary uppercase tracking-wider mb-4">
-              Blog
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground">
+            <BlurFade inView delay={0}>
+              <span className="inline-block text-sm font-medium text-secondary uppercase tracking-wider mb-4">
+                Blog
+              </span>
+            </BlurFade>
+            <TextAnimate 
+              animation="blurInUp" 
+              by="word" 
+              className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground"
+              as="h2"
+            >
               Últimos artículos
-            </h2>
+            </TextAnimate>
           </div>
-          <Button variant="outline" className="self-start md:self-auto">
-            Ver todos los artículos
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          <BlurFade inView delay={0.1}>
+            <Button variant="outline" className="self-start md:self-auto">
+              Ver todos los artículos
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </BlurFade>
         </div>
 
         {/* Blog Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
-            <Card
-              key={post.id}
-              className="group overflow-hidden hover:shadow-elevated transition-all duration-300 bg-card"
-            >
-              <CardHeader className="p-0">
-                <div className="relative overflow-hidden aspect-video">
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-primary text-primary-foreground text-xs font-medium px-3 py-1 rounded-full">
-                      {post.category}
-                    </span>
+          {blogPosts.map((post, index) => (
+            <BlurFade key={post.id} inView delay={0.1 * index}>
+              <Card className="group overflow-hidden hover:shadow-elevated transition-all duration-300 bg-card h-full">
+                <CardHeader className="p-0">
+                  <div className="relative overflow-hidden aspect-video">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-primary text-primary-foreground text-xs font-medium px-3 py-1 rounded-full">
+                        {post.category}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent className="p-6">
-                <h3 className="text-xl font-heading font-semibold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                  {post.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed line-clamp-2">
-                  {post.excerpt}
-                </p>
-              </CardContent>
-              <CardFooter className="px-6 pb-6 pt-0">
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1.5">
-                    <User className="h-4 w-4" />
-                    <span>{post.author}</span>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-heading font-semibold text-foreground mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                </CardContent>
+                <CardFooter className="px-6 pb-6 pt-0">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1.5">
+                      <User className="h-4 w-4" />
+                      <span>{post.author}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="h-4 w-4" />
+                      <span>{post.date}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="h-4 w-4" />
-                    <span>{post.date}</span>
-                  </div>
-                </div>
-              </CardFooter>
-            </Card>
+                </CardFooter>
+              </Card>
+            </BlurFade>
           ))}
         </div>
       </div>

@@ -1,5 +1,7 @@
 import { Home, RefreshCw, Calculator, Users, FileCheck, Handshake } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BlurFade } from "@/components/ui/blur-fade";
+import { TextAnimate } from "@/components/ui/text-animate";
 
 const services = [
   {
@@ -46,39 +48,47 @@ const Services = () => {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block text-sm font-medium text-secondary uppercase tracking-wider mb-4">
-            Nuestros Servicios
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-6">
+          <BlurFade inView delay={0}>
+            <span className="inline-block text-sm font-medium text-secondary uppercase tracking-wider mb-4">
+              Nuestros Servicios
+            </span>
+          </BlurFade>
+          <TextAnimate 
+            animation="blurInUp" 
+            by="word" 
+            className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-6"
+            as="h2"
+          >
             Todo lo que necesitas para conseguir tu hipoteca ideal
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Somos expertos en intermediación hipotecaria. Trabajamos con más de
-            20 entidades bancarias para encontrar la mejor opción para ti.
-          </p>
+          </TextAnimate>
+          <BlurFade inView delay={0.2}>
+            <p className="text-lg text-muted-foreground">
+              Somos expertos en intermediación hipotecaria. Trabajamos con más de
+              20 entidades bancarias para encontrar la mejor opción para ti.
+            </p>
+          </BlurFade>
         </div>
 
         {/* Services Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {services.map((service, index) => (
-            <Card
-              key={index}
-              className="group hover:shadow-elevated transition-all duration-300 border-border/50 hover:border-primary/30 bg-card"
-            >
-              <CardHeader>
-                <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
-                  <service.icon className="h-7 w-7 text-primary group-hover:text-primary-foreground transition-colors" />
-                </div>
-                <CardTitle className="text-xl font-heading text-foreground">
-                  {service.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-muted-foreground text-base leading-relaxed">
-                  {service.description}
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <BlurFade key={index} inView delay={0.1 * index}>
+              <Card className="group hover:shadow-elevated transition-all duration-300 border-border/50 hover:border-primary/30 bg-card h-full">
+                <CardHeader>
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                    <service.icon className="h-7 w-7 text-primary group-hover:text-primary-foreground transition-colors" />
+                  </div>
+                  <CardTitle className="text-xl font-heading text-foreground">
+                    {service.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-muted-foreground text-base leading-relaxed">
+                    {service.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </BlurFade>
           ))}
         </div>
       </div>
