@@ -76,10 +76,6 @@ const Storytelling = () => {
           {steps.map((step, index) => (
             <BlurFade key={index} inView delay={0.1 * index}>
               <div className="relative group h-full">
-                {/* Connector Line */}
-                {index < steps.length - 1 && (
-                  <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-primary-foreground/20 z-0" />
-                )}
                 
                 <div className="bg-card/10 backdrop-blur-sm rounded-2xl p-6 border border-primary-foreground/10 hover:bg-card/20 transition-all duration-300 relative z-10 h-full">
                   <div className="flex items-center gap-4 mb-4">

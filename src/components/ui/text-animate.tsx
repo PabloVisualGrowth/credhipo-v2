@@ -42,7 +42,7 @@ export function TextAnimate({
   className,
   animation = "blurInUp",
   by = "word",
-  duration = 0.5,
+  duration = 0.3,
   delay = 0,
   once = true,
   as: Component = "p",
@@ -64,7 +64,7 @@ export function TextAnimate({
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: by === "character" ? 0.02 : 0.08,
+        staggerChildren: by === "character" ? 0.015 : 0.04,
         delayChildren: delay,
       },
     },
