@@ -42,7 +42,7 @@ export function TextAnimate({
   className,
   animation = "blurInUp",
   by = "word",
-  duration = 0.5,
+  duration = 0.3,
   delay = 0,
   once = true,
   as: Component = "p",
