@@ -20,7 +20,7 @@ interface TextAnimateProps {
 
 const animationVariants: Record<AnimationType, Variants> = {
   blurInUp: {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+    hidden: { opacity: 0, y: 20, filter: "blur(2px)" }, // Optimization: reduced from 8px
     visible: { opacity: 1, y: 0, filter: "blur(0px)" },
   },
   fadeIn: {

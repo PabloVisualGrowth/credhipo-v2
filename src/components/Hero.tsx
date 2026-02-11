@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import heroImage from "@/assets/hero-family.jpg";
 
 const Hero = () => {
@@ -28,18 +29,16 @@ const Hero = () => {
         style={{ backgroundImage: `url(${heroImage})` }}
       >
         {/* Overlay que aparece con scroll */}
-        <div 
-          className={`absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/50 md:from-primary/90 md:via-primary/70 md:to-primary/40 transition-opacity duration-500 ${
-            showContent ? "opacity-100" : "opacity-0"
-          }`} 
+        <div
+          className={`absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/50 md:from-primary/90 md:via-primary/70 md:to-primary/40 transition-opacity duration-500 ${showContent ? "opacity-100" : "opacity-0"
+            }`}
         />
       </div>
 
       {/* Content - aparece con scroll */}
-      <div 
-        className={`container relative z-10 mx-auto px-4 pt-20 pb-12 md:pt-32 md:pb-20 transition-all duration-500 ${
-          showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
+      <div
+        className={`container relative z-10 mx-auto px-4 pt-20 pb-12 md:pt-32 md:pb-20 transition-all duration-500 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
       >
         <div className="max-w-2xl">
           {/* Badge */}
@@ -89,7 +88,7 @@ const Hero = () => {
           <div className="flex items-center justify-between gap-2 sm:gap-4 md:gap-8 mt-6 md:mt-12 pt-4 md:pt-8 border-t border-primary-foreground/20">
             <div className="text-center flex-1">
               <div className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-primary-foreground">
-                98%
+                <NumberTicker value={98} className="text-primary-foreground" />%
               </div>
               <div className="text-[10px] sm:text-xs md:text-sm text-primary-foreground/70">
                 Aprobaciones
@@ -97,7 +96,7 @@ const Hero = () => {
             </div>
             <div className="text-center flex-1">
               <div className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-primary-foreground">
-                20+
+                <NumberTicker value={20} className="text-primary-foreground" />+
               </div>
               <div className="text-[10px] sm:text-xs md:text-sm text-primary-foreground/70">
                 Entidades
@@ -116,10 +115,9 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator - visible solo cuando no hay contenido */}
-      <div 
-        className={`absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 transition-opacity duration-300 ${
-          showContent ? "opacity-0" : "opacity-100 animate-bounce"
-        }`}
+      <div
+        className={`absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 transition-opacity duration-300 ${showContent ? "opacity-0" : "opacity-100 animate-bounce"
+          }`}
       >
         <div className="w-5 h-8 md:w-6 md:h-10 border-2 border-foreground/40 rounded-full flex justify-center">
           <div className="w-1 h-2 md:w-1.5 md:h-3 bg-foreground/60 rounded-full mt-1.5 md:mt-2" />

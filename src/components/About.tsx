@@ -2,6 +2,7 @@ import { Shield, Users, Lightbulb, Heart, Eye } from "lucide-react";
 import consultantImage from "@/assets/consultant-meeting.jpg";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { TextAnimate } from "@/components/ui/text-animate";
+import { NumberTicker } from "@/components/ui/number-ticker";
 
 const values = [
   { icon: Shield, label: "Transparencia" },
@@ -30,7 +31,7 @@ const About = () => {
               {/* Floating Card */}
               <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-card rounded-xl shadow-elevated p-4 md:p-6 max-w-[200px] md:max-w-xs hidden sm:block">
                 <div className="text-2xl md:text-4xl font-heading font-bold text-primary mb-1 md:mb-2">
-                  2.000+
+                  <NumberTicker value={2000} className="text-primary" />+
                 </div>
                 <p className="text-sm md:text-base text-muted-foreground">
                   Familias han conseguido su hogar con nosotros
@@ -46,15 +47,15 @@ const About = () => {
                 Sobre Nosotros
               </span>
             </BlurFade>
-            <TextAnimate 
-              animation="blurInUp" 
-              by="word" 
+            <TextAnimate
+              animation="blurInUp"
+              by="word"
               className="text-2xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4 md:mb-6"
               as="h2"
             >
               Donde tu Hogar Comienza
             </TextAnimate>
-            
+
             {/* Mission */}
             <BlurFade inView delay={0.2}>
               <div className="mb-8">
