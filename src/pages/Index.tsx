@@ -11,6 +11,7 @@ import CookieConsent from "@/components/CookieConsent";
 import LeadModal from "@/components/LeadModal";
 
 const Index = () => {
+  // Deployment check v2
   return (
     <>
       <Header />
