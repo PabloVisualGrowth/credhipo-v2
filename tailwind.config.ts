@@ -57,7 +57,6 @@ export default {
           "blue-lighter": "hsl(var(--credipo-blue-lighter))",
           cream: "hsl(var(--credipo-cream))",
           "cream-dark": "hsl(var(--credipo-cream-dark))",
-          lime: "hsl(var(--credipo-lime))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
