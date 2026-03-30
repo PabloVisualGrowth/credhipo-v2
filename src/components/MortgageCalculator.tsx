@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { TextAnimate } from "@/components/ui/text-animate";
 
 const MortgageCalculator = () => {
   const [loanAmount, setLoanAmount] = useState(200000);
@@ -14,7 +13,7 @@ const MortgageCalculator = () => {
   const calculation = useMemo(() => {
     const monthlyRate = interestRate / 100 / 12;
     const numberOfPayments = years * 12;
-    
+
     if (monthlyRate === 0) {
       return {
         monthlyPayment: loanAmount / numberOfPayments,
@@ -30,11 +29,7 @@ const MortgageCalculator = () => {
     const totalPayment = monthlyPayment * numberOfPayments;
     const totalInterest = totalPayment - loanAmount;
 
-    return {
-      monthlyPayment,
-      totalPayment,
-      totalInterest,
-    };
+    return { monthlyPayment, totalPayment, totalInterest };
   }, [loanAmount, years, interestRate]);
 
   const formatCurrency = (value: number) =>
@@ -47,32 +42,21 @@ const MortgageCalculator = () => {
   return (
     <section id="calculadora" className="py-20 lg:py-32 bg-credipo-cream-dark">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left Content */}
-          <div>
-            <BlurFade inView delay={0}>
+        <BlurFade inView delay={0}>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left Content */}
+            <div>
               <span className="inline-block text-sm font-medium text-secondary uppercase tracking-wider mb-4">
                 Calculadora de Hipotecas
               </span>
-            </BlurFade>
-            <TextAnimate 
-              animation="blurInUp" 
-              by="word" 
-              className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-6"
-              as="h2"
-            >
-              Calcula tu cuota mensual en segundos
-            </TextAnimate>
-            <BlurFade inView delay={0.2}>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-6">
+                Calcula tu cuota mensual en segundos
+              </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Utiliza nuestra calculadora para estimar tu cuota mensual. Ajusta
-                los parámetros según tus necesidades y descubre cuánto podrías
-                pagar.
+                Utiliza nuestra calculadora para estimar tu cuota mensual. Ajusta los parámetros según tus necesidades y descubre cuánto podrías pagar.
               </p>
-            </BlurFade>
 
-            {/* Results */}
-            <BlurFade inView delay={0.3}>
+              {/* Results */}
               <div className="grid sm:grid-cols-3 gap-4 mb-8">
                 <Card className="bg-primary text-primary-foreground">
                   <CardHeader className="pb-2">
@@ -111,17 +95,13 @@ const MortgageCalculator = () => {
                   </CardContent>
                 </Card>
               </div>
-            </BlurFade>
 
-            <BlurFade inView delay={0.4}>
               <Button variant="cta" size="lg">
                 Solicitar estudio gratuito
               </Button>
-            </BlurFade>
-          </div>
+            </div>
 
-          {/* Calculator */}
-          <BlurFade inView delay={0.2}>
+            {/* Calculator */}
             <Card className="shadow-elevated">
               <CardContent className="p-8">
                 <div className="flex items-center gap-3 mb-8">
@@ -220,8 +200,8 @@ const MortgageCalculator = () => {
                 </div>
               </CardContent>
             </Card>
-          </BlurFade>
-        </div>
+          </div>
+        </BlurFade>
       </div>
     </section>
   );
