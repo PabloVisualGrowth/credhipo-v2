@@ -1,20 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import heroImage from "@/assets/hero-family.jpg";
 
 const Hero = () => {
-  const [showContent, setShowContent] = useState(false);
   const [expanded, setExpanded] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowContent(window.scrollY > 5);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -23,19 +14,11 @@ const Hero = () => {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroImage})` }}
       >
-        <div
-          className={`absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/50 md:from-primary/90 md:via-primary/70 md:to-primary/40 transition-opacity duration-500 ${
-            showContent ? "opacity-100" : "opacity-0"
-          }`}
-        />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/50 md:from-primary/90 md:via-primary/70 md:to-primary/40" />
       </div>
 
       {/* Content */}
-      <div
-        className={`container relative z-10 mx-auto px-4 pt-20 pb-12 md:pt-32 md:pb-20 transition-all duration-500 ${
-          showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-      >
+      <div className="container relative z-10 mx-auto px-4 pt-20 pb-12 md:pt-32 md:pb-20">
         <div className="max-w-2xl">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full px-3 py-1.5 mb-4">
@@ -76,13 +59,9 @@ const Hero = () => {
             className="flex items-center gap-1 text-xs md:text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors mb-6 md:mb-10"
           >
             {expanded ? (
-              <>
-                Leer menos <ChevronUp className="h-4 w-4" />
-              </>
+              <>Leer menos <ChevronUp className="h-4 w-4" /></>
             ) : (
-              <>
-                Leer más <ChevronDown className="h-4 w-4" />
-              </>
+              <>Leer más <ChevronDown className="h-4 w-4" /></>
             )}
           </button>
 
@@ -130,17 +109,6 @@ const Hero = () => {
           <p className="text-[10px] md:text-xs text-primary-foreground/50 mt-4">
             * Número de licencia de Banco de España
           </p>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div
-        className={`absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 transition-opacity duration-300 ${
-          showContent ? "opacity-0" : "opacity-100 animate-bounce"
-        }`}
-      >
-        <div className="w-5 h-8 md:w-6 md:h-10 border-2 border-foreground/40 rounded-full flex justify-center">
-          <div className="w-1 h-2 md:w-1.5 md:h-3 bg-foreground/60 rounded-full mt-1.5 md:mt-2" />
         </div>
       </div>
     </section>
