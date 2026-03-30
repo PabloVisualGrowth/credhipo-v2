@@ -2,7 +2,6 @@ import { ArrowRight, TrendingUp, Clock, FileCheck, KeyRound } from "lucide-react
 import { Button } from "@/components/ui/button";
 import dreamHome from "@/assets/dream-home.jpg";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { TextAnimate } from "@/components/ui/text-animate";
 
 const steps = [
   {
@@ -47,34 +46,25 @@ const Storytelling = () => {
       </div>
 
       <div className="container relative z-10 mx-auto px-4">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <BlurFade inView delay={0}>
+        <BlurFade inView delay={0}>
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block text-sm font-medium text-primary-foreground/70 uppercase tracking-wider mb-4">
               Proceso
             </span>
-          </BlurFade>
-          <TextAnimate
-            animation="blurInUp"
-            by="word"
-            className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary-foreground mb-6"
-            as="h2"
-          >
-            Cómo trabajamos
-          </TextAnimate>
-          <BlurFade inView delay={0.2}>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary-foreground mb-6">
+              Cómo trabajamos
+            </h2>
             <p className="text-lg text-primary-foreground/80">
               Supervisamos y acompañamos cada fase de la operación, desde el primer análisis hasta la firma final, para que todo avance de forma clara y sin sorpresas.
             </p>
-          </BlurFade>
-        </div>
+          </div>
 
-        {/* Steps */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-          {steps.map((step, index) => (
-            <BlurFade key={index} inView delay={0.1 * index}>
-              <div className="relative group h-full">
-                <div className="bg-card/10 backdrop-blur-sm rounded-2xl p-6 border border-primary-foreground/10 hover:bg-card/20 transition-all duration-300 relative z-10 h-full">
+          {/* Steps */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            {steps.map((step, index) => (
+              <div key={index} className="group h-full">
+                <div className="bg-card/10 backdrop-blur-sm rounded-2xl p-6 border border-primary-foreground/10 hover:bg-card/20 transition-all duration-300 h-full">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 rounded-xl bg-primary-foreground/20 flex items-center justify-center group-hover:bg-primary-foreground group-hover:scale-110 transition-all duration-300">
                       <step.icon className="h-6 w-6 text-primary-foreground group-hover:text-primary transition-colors" />
@@ -91,12 +81,10 @@ const Storytelling = () => {
                   </p>
                 </div>
               </div>
-            </BlurFade>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* CTA */}
-        <BlurFade inView delay={0.5}>
+          {/* CTA */}
           <div className="text-center">
             <Button variant="hero" size="xl">
               Hablar con un asesor
