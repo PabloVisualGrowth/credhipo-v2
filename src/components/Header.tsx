@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoMain from "@/assets/logo-main.png";
 
@@ -40,22 +40,22 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between h-16 md:h-20 bg-card/95 backdrop-blur-md rounded-2xl px-6 shadow-elevated border border-border/30">
-          {/* Logo */}
-          <a href="/" className="flex items-center flex-shrink-0">
+          {/* Logo - no link */}
+          <div className="flex items-center flex-shrink-0">
             <img
               src={logoMain}
               alt="CredHipo - Donde tu Hogar Comienza"
               className="h-10 md:h-14 w-auto"
             />
-          </a>
+          </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-0.5">
+          <nav className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="whitespace-nowrap text-xs font-medium text-foreground/80 hover:text-primary hover:bg-primary/10 transition-all px-2.5 py-2 rounded-xl"
+                className="nav-underline whitespace-nowrap text-sm font-semibold text-foreground/80 hover:text-primary transition-colors px-3 py-2"
               >
                 {link.label}
               </a>
@@ -63,14 +63,7 @@ const Header = () => {
           </nav>
 
           {/* CTA Button */}
-          <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
-            <a
-              href="tel:+34900000000"
-              className="whitespace-nowrap flex items-center gap-1.5 text-xs font-medium text-primary"
-            >
-              <Phone className="h-3.5 w-3.5" />
-              900 000 000
-            </a>
+          <div className="hidden xl:flex items-center flex-shrink-0">
             <Button variant="cta" size="sm" className="rounded-full whitespace-nowrap">
               Hablar con un asesor
             </Button>
