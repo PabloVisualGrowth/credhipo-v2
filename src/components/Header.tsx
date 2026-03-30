@@ -53,7 +53,7 @@ const Header = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
@@ -66,7 +66,7 @@ const Header = () => {
           </nav>
 
           {/* CTA Button */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden xl:flex items-center gap-4">
             <a
               href="tel:+34900000000"
               className="flex items-center gap-2 text-sm font-medium text-primary"
@@ -81,7 +81,7 @@ const Header = () => {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden p-2 text-primary"
+            className="xl:hidden p-2 text-primary"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Menú"
           >
@@ -95,7 +95,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-card border-t border-border animate-fade-in">
+          <div className="xl:hidden bg-card border-t border-border animate-fade-in">
             <nav className="flex flex-col py-4">
               {navLinks.map((link) => (
                 <a
