@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import logoMain from "@/assets/logo-main.png";
 
 const Header = () => {
@@ -29,7 +28,7 @@ const Header = () => {
     { href: "#como-trabajamos", label: "Cómo trabajamos" },
     { href: "#calculadora", label: "Calculador hipoteca" },
     { href: "#blog", label: "Blog" },
-    { href: "#contacto", label: "Contacto" },
+    { href: "#contacto", label: "Contáctanos" },
   ];
 
   return (
@@ -39,7 +38,7 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-between h-16 md:h-20 bg-card/95 backdrop-blur-md rounded-2xl px-6 shadow-elevated border border-border/30">
+        <div className="flex items-center justify-between h-16 md:h-20 bg-card/40 backdrop-blur-md rounded-2xl px-6 shadow-elevated border border-border/20">
           {/* Logo - no link */}
           <div className="flex items-center flex-shrink-0">
             <img
@@ -61,13 +60,6 @@ const Header = () => {
               </a>
             ))}
           </nav>
-
-          {/* CTA Button */}
-          <div className="hidden xl:flex items-center flex-shrink-0">
-            <Button variant="cta" size="sm" className="rounded-full whitespace-nowrap">
-              Hablar con un asesor
-            </Button>
-          </div>
 
           {/* Mobile Menu Toggle */}
           <button
@@ -97,11 +89,6 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <div className="px-4 pt-4 border-t border-border mt-2">
-                <Button variant="cta" className="w-full">
-                  Hablar con un asesor
-                </Button>
-              </div>
             </nav>
           </div>
         )}
