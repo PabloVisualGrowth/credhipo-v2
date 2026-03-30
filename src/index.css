@@ -225,16 +225,6 @@
   width: 100%;
 }
 
-/* Fullpage scroll snap */
-html {
-  scroll-snap-type: y mandatory;
-}
-
-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  min-height: 100vh;
-}
 /* Nav CTA button with expand-glow effect */
 .btn-cta-nav {
   position: relative;
