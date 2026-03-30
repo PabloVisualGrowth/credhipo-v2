@@ -2,7 +2,6 @@ import { ArrowRight, Calendar, User } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { TextAnimate } from "@/components/ui/text-animate";
 
 const blogPosts = [
   {
@@ -41,36 +40,27 @@ const Blog = () => {
   return (
     <section id="blog" className="py-20 lg:py-32 bg-credipo-cream-dark">
       <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
-          <div>
-            <BlurFade inView delay={0}>
+        <BlurFade inView delay={0}>
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+            <div>
               <span className="inline-block text-sm font-medium text-secondary uppercase tracking-wider mb-4">
                 Blog
               </span>
-            </BlurFade>
-            <TextAnimate 
-              animation="blurInUp" 
-              by="word" 
-              className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground"
-              as="h2"
-            >
-              Últimos artículos
-            </TextAnimate>
-          </div>
-          <BlurFade inView delay={0.1}>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground">
+                Últimos artículos
+              </h2>
+            </div>
             <Button variant="outline" className="self-start md:self-auto">
               Ver todos los artículos
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-          </BlurFade>
-        </div>
+          </div>
 
-        {/* Blog Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post, index) => (
-            <BlurFade key={post.id} inView delay={0.1 * index}>
-              <Card className="group overflow-hidden hover:shadow-elevated transition-all duration-300 bg-card h-full">
+          {/* Blog Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {blogPosts.map((post) => (
+              <Card key={post.id} className="group overflow-hidden hover:shadow-elevated transition-all duration-300 bg-card h-full">
                 <CardHeader className="p-0">
                   <div className="relative overflow-hidden aspect-video">
                     <img
@@ -106,9 +96,9 @@ const Blog = () => {
                   </div>
                 </CardFooter>
               </Card>
-            </BlurFade>
-          ))}
-        </div>
+            ))}
+          </div>
+        </BlurFade>
       </div>
     </section>
   );
