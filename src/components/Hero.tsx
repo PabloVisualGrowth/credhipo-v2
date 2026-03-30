@@ -37,7 +37,10 @@ const Hero = () => {
 
           {/* Headline */}
           <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
-            Más que un broker hipotecario<sup>*</sup>: una operación segura y bien estructurada.
+            Más que un broker hipotecario,{" "}
+            <span className="bg-gradient-to-r from-credipo-lime via-emerald-300 to-cyan-200 bg-clip-text text-transparent">
+              una operación segura y bien estructurada.
+            </span>
           </h1>
 
           {/* Body */}
@@ -112,10 +115,7 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Footnote */}
-          <p className="text-[10px] md:text-xs text-primary-foreground/50 mt-4">
-            * Número de licencia de Banco de España
-          </p>
+
         </div>
       </div>
     </section>
