@@ -38,7 +38,7 @@ const Header = () => {
       }`}
     >
       <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-between h-16 md:h-20 bg-card/40 backdrop-blur-md rounded-2xl px-6 shadow-elevated border border-border/20">
+        <div className="flex items-center justify-between h-16 md:h-20 bg-white/10 backdrop-blur-lg rounded-2xl px-6 shadow-elevated border border-white/10">
           {/* Logo - no link */}
           <div className="flex items-center flex-shrink-0">
             <img
