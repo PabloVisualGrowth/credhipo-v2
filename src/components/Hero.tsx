@@ -29,7 +29,7 @@ const Hero = () => {
         <div className="max-w-2xl">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full px-3 py-1.5 mb-4">
-            <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-credipo-lime rounded-full animate-pulse" />
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-primary-foreground rounded-full animate-pulse" />
             <span className="text-[10px] md:text-sm text-primary-foreground/90">
               Donde tu hogar comienza
             </span>
@@ -38,7 +38,7 @@ const Hero = () => {
           {/* Headline */}
           <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-bold text-primary-foreground leading-tight mb-3 md:mb-6">
             Más que un broker hipotecario,{" "}
-            <span className="bg-gradient-to-r from-credipo-lime via-emerald-300 to-cyan-200 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-white to-[#cdd0d7] bg-clip-text text-transparent">
               una operación segura y bien estructurada.
             </span>
           </h1>
@@ -114,7 +114,6 @@ const Hero = () => {
               </div>
             </div>
           </div>
-
 
         </div>
       </div>
