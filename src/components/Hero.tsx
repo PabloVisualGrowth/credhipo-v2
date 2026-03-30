@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { NumberTicker } from "@/components/ui/number-ticker";
 import heroImage from "@/assets/hero-family.jpg";
 
 const Hero = () => {
@@ -75,44 +74,15 @@ const Hero = () => {
             )}
           </button>
 
-          {/* CTA */}
+          {/* CTAs */}
           <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
-            <Button
-              variant="hero"
-              size="lg"
-              className="w-full sm:w-auto text-xs sm:text-sm md:text-base py-5 md:py-6"
-            >
-              Hablar con un asesor
+            <Button variant="hero" size="lg" className="w-full sm:w-auto text-xs sm:text-sm md:text-base py-5 md:py-6">
+              Quiero comprar una vivienda
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="flex items-center justify-between gap-2 sm:gap-4 md:gap-8 mt-6 md:mt-12 pt-4 md:pt-8 border-t border-primary-foreground/20">
-            <div className="text-center flex-1">
-              <div className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-primary-foreground">
-                <NumberTicker value={98} className="text-primary-foreground" />%
-              </div>
-              <div className="text-[10px] sm:text-xs md:text-sm text-primary-foreground/70">
-                Aprobaciones
-              </div>
-            </div>
-            <div className="text-center flex-1">
-              <div className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-primary-foreground">
-                <NumberTicker value={20} className="text-primary-foreground" />+
-              </div>
-              <div className="text-[10px] sm:text-xs md:text-sm text-primary-foreground/70">
-                Entidades
-              </div>
-            </div>
-            <div className="text-center flex-1">
-              <div className="text-xl sm:text-2xl md:text-3xl font-heading font-bold text-primary-foreground">
-                0€
-              </div>
-              <div className="text-[10px] sm:text-xs md:text-sm text-primary-foreground/70">
-                Costes ocultos
-              </div>
-            </div>
+            <Button variant="heroOutline" size="lg" className="w-full sm:w-auto text-xs sm:text-sm md:text-base py-5 md:py-6">
+              Quiero mejorar mi hipoteca
+            </Button>
           </div>
 
         </div>
