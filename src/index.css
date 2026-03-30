@@ -235,3 +235,66 @@ section {
   scroll-snap-stop: always;
   min-height: 100vh;
 }
+/* Nav CTA button with expand-glow effect */
+.btn-cta-nav {
+  position: relative;
+  font-size: 13px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.65em 1.6em;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6em;
+  transition: all 0.2s;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #fff;
+  background-color: hsl(var(--primary));
+}
+
+.btn-cta-nav:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.btn-cta-nav:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-cta-nav::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+  background-color: hsl(var(--primary));
+}
+
+.btn-cta-nav:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
+
+/* Hero variant: white button on dark hero background */
+.btn-cta-nav--hero {
+  color: hsl(var(--primary));
+  background-color: hsl(var(--primary-foreground));
+}
+
+.btn-cta-nav--hero::after {
+  background-color: hsl(var(--primary-foreground));
+}
+
+/* Nav underline color override when on dark background */
+.nav-dark .nav-underline::after,
+.nav-dark .nav-underline::before {
+  background: hsl(var(--primary-foreground));
+}
