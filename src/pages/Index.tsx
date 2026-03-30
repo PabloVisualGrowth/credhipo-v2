@@ -9,12 +9,13 @@ import ContactCTA from "@/components/ContactCTA";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import LeadModal from "@/components/LeadModal";
+import ScrollNav from "@/components/ScrollNav";
 
 const Index = () => {
-  // Deployment check v2
   return (
     <>
       <Header />
+      <ScrollNav />
       <main>
         <Hero />
         <Services />
