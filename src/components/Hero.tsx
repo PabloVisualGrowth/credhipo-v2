@@ -8,7 +8,7 @@ const Hero = () => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <section className="relative min-h-screen flex items-center">
+    <section className="relative min-h-screen flex items-center bg-primary">
       {/* Background Image - fixed to viewport height, never grows */}
       <div
         className="absolute top-0 left-0 right-0 h-screen bg-cover bg-center bg-no-repeat"
