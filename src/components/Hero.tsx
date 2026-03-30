@@ -7,7 +7,7 @@ const Hero = () => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <section className="relative min-h-screen flex items-center bg-primary">
+    <section id="inicio" className="relative min-h-screen flex items-center bg-primary">
       {/* Background Image - fixed to viewport height, never grows */}
       <div
         className="absolute top-0 left-0 right-0 h-screen bg-cover bg-center bg-no-repeat"
@@ -28,7 +28,7 @@ const Hero = () => {
         <div className="max-w-2xl">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-primary-foreground/20 backdrop-blur-sm rounded-full px-3 py-1.5 mb-4">
-            <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-primary-foreground rounded-full animate-pulse" />
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-green-500 rounded-full animate-pulse" />
             <span className="text-[10px] md:text-sm text-primary-foreground/90">
               Donde tu hogar comienza
             </span>
@@ -42,14 +42,13 @@ const Hero = () => {
             </span>
           </h1>
 
-          {/* Body */}
-          <p className="text-sm md:text-xl text-primary-foreground/80 mb-4 md:mb-6 leading-relaxed">
-            En Credhipo conectamos oportunidades inmobiliarias con decisiones financieras sólidas. Nuestro equipo, formado por expertos en banca, derecho y economía, sector inmobiliario, analiza cada operación desde su viabilidad financiera, legal y estratégica para que compres o inviertas con total confianza.
-          </p>
-
-          {/* Expandable text */}
-          {expanded && (
-            <div className="text-sm md:text-base text-primary-foreground/75 mb-4 md:mb-6 leading-relaxed space-y-3">
+          {/* Body - swaps when expanded */}
+          {!expanded ? (
+            <p className="text-sm md:text-xl text-primary-foreground/80 mb-4 md:mb-6 leading-relaxed">
+              En Credhipo conectamos oportunidades inmobiliarias con decisiones financieras sólidas. Nuestro equipo, formado por expertos en banca, derecho y economía, sector inmobiliario, analiza cada operación desde su viabilidad financiera, legal y estratégica para que compres o inviertas con total confianza.
+            </p>
+          ) : (
+            <div className="text-sm md:text-base text-primary-foreground/80 mb-4 md:mb-6 leading-relaxed space-y-3">
               <p>
                 En Credhipo analizamos cada operación desde una perspectiva financiera, legal y estratégica para garantizar que cada decisión sea sólida, viable y segura.
               </p>
@@ -74,14 +73,11 @@ const Hero = () => {
             )}
           </button>
 
-          {/* CTAs */}
+          {/* CTA */}
           <div className="flex flex-col gap-2 sm:flex-row sm:gap-4">
             <Button variant="hero" size="lg" className="w-full sm:w-auto text-xs sm:text-sm md:text-base py-5 md:py-6">
-              Quiero comprar una vivienda
+              Hablar con un asesor
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button variant="heroOutline" size="lg" className="w-full sm:w-auto text-xs sm:text-sm md:text-base py-5 md:py-6">
-              Quiero mejorar mi hipoteca
             </Button>
           </div>
 
