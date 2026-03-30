@@ -1,4 +1,5 @@
 import { useState } from "react";
+import logoFooter from "@/assets/logo-footer.png";
 import { Send, Phone, Mail, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,9 +57,9 @@ const ContactCTA = () => {
                 <Iphone>
                   <div className="h-full bg-primary p-6 pt-12 flex flex-col overflow-y-auto scrollbar-hide">
                     <img
-                      src="/credhipo-logo.png"
+                      src={logoFooter}
                       alt="CredHipo Logo"
-                      className="h-12 w-auto mb-6 brightness-0 invert opacity-90"
+                      className="h-12 w-auto mb-6"
                     />
                     <span className="inline-block text-xs font-medium text-primary-foreground/90 uppercase tracking-wider mb-4">
                       Contacto
