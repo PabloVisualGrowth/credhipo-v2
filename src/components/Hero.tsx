@@ -8,14 +8,20 @@ const Hero = () => {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image */}
+    <section className="relative min-h-screen flex items-center">
+      {/* Background Image - fixed to viewport height, never grows */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="absolute top-0 left-0 right-0 h-screen bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroImage})` }}
       >
+        {/* Left-to-right overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/50 md:from-primary/90 md:via-primary/70 md:to-primary/40" />
-        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-primary to-transparent" />
+        {/* Bottom blur - grows when text expands to hide the image cutoff */}
+        <div
+          className={`absolute bottom-0 left-0 right-0 backdrop-blur-sm bg-gradient-to-t from-primary via-primary/90 to-transparent transition-all duration-500 ${
+            expanded ? "h-80" : "h-24"
+          }`}
+        />
       </div>
 
       {/* Content */}
