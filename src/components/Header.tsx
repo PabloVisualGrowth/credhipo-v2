@@ -11,14 +11,12 @@ const Header = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
       if (currentScrollY < lastScrollY || currentScrollY < 50) {
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false);
         setIsMobileMenuOpen(false);
       }
-
       setLastScrollY(currentScrollY);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -26,7 +24,6 @@ const Header = () => {
   }, [lastScrollY]);
 
   const navLinks = [
-    { href: "#home", label: "Home" },
     { href: "#servicios", label: "Servicios" },
     { href: "#nosotros", label: "Nosotros" },
     { href: "#como-trabajamos", label: "Cómo trabajamos" },
@@ -44,7 +41,7 @@ const Header = () => {
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between h-16 md:h-20 bg-card/95 backdrop-blur-md rounded-2xl px-6 shadow-elevated border border-border/30">
           {/* Logo */}
-          <a href="/" className="flex items-center">
+          <a href="/" className="flex items-center flex-shrink-0">
             <img
               src={logoMain}
               alt="CredHipo - Donde tu Hogar Comienza"
@@ -53,12 +50,12 @@ const Header = () => {
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-0.5">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-foreground/80 hover:text-primary hover:bg-primary/10 transition-all px-4 py-2 rounded-xl"
+                className="whitespace-nowrap text-xs font-medium text-foreground/80 hover:text-primary hover:bg-primary/10 transition-all px-2.5 py-2 rounded-xl"
               >
                 {link.label}
               </a>
@@ -66,15 +63,15 @@ const Header = () => {
           </nav>
 
           {/* CTA Button */}
-          <div className="hidden xl:flex items-center gap-4">
+          <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
             <a
               href="tel:+34900000000"
-              className="flex items-center gap-2 text-sm font-medium text-primary"
+              className="whitespace-nowrap flex items-center gap-1.5 text-xs font-medium text-primary"
             >
-              <Phone className="h-4 w-4" />
+              <Phone className="h-3.5 w-3.5" />
               900 000 000
             </a>
-            <Button variant="cta" size="lg" className="rounded-full">
+            <Button variant="cta" size="sm" className="rounded-full whitespace-nowrap">
               Hablar con un asesor
             </Button>
           </div>
