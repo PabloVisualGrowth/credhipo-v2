@@ -2,22 +2,22 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import logoMain from "@/assets/logo-main.png";
 
-// Sections with dark (blue/primary) backgrounds
-const DARK_SECTION_IDS = ["inicio", "como-trabajamos"];
+// Sections with dark (primary/blue) backgrounds
+const DARK_SECTION_IDS = ["inicio", "como-trabajamos", "contacto"];
 const ALL_SECTION_IDS = ["inicio", "servicios", "calculadora", "como-trabajamos", "nosotros", "blog", "contacto"];
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [atTop, setAtTop] = useState(true);
-  const [isDarkBg, setIsDarkBg] = useState(true); // hero is first and dark
+  const [isInHero, setIsInHero] = useState(true);
+  const [isDarkBg, setIsDarkBg] = useState(true);
 
-  // Scroll direction hide/show + atTop detection
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setAtTop(currentScrollY < 80);
+      const heroHeight = window.innerHeight;
+      setIsInHero(currentScrollY < heroHeight - 80);
       if (currentScrollY < lastScrollY || currentScrollY < 50) {
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -30,7 +30,6 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // IntersectionObserver: detect which section is at the top of viewport
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -40,7 +39,6 @@ const Header = () => {
           }
         });
       },
-      // rootMargin: only trigger when section top is in the top ~15% of viewport (below header)
       { rootMargin: "-64px 0px -80% 0px", threshold: 0 }
     );
     ALL_SECTION_IDS.forEach((id) => {
@@ -53,24 +51,32 @@ const Header = () => {
   const navLinks = [
     { href: "#servicios", label: "Servicios" },
     { href: "#nosotros", label: "Nosotros" },
-    { href: "#como-trabajamos", label: "C\u00f3mo trabajamos" },
+    { href: "#como-trabajamos", label: "Cómo trabajamos" },
     { href: "#calculadora", label: "Calculador hipoteca" },
     { href: "#blog", label: "Blog" },
   ];
 
-  // Derived styles
-  const scrolled = !atTop;
-  const showWhite = scrolled && isDarkBg;
+  // Navbar bg logic:
+  // - In Hero: fully white, solid
+  // - Past Hero + light section: slightly transparent white
+  // - Past Hero + dark section: slightly transparent (dark bg shows through)
+  const navBg = isInHero
+    ? "bg-white shadow-sm border border-gray-100"
+    : isDarkBg
+      ? "bg-white/15 backdrop-blur-md border border-white/10 shadow-none"
+      : "bg-white/80 backdrop-blur-md border border-white/20 shadow-sm";
 
-  const navBg = atTop
-    ? "bg-white shadow-md border border-transparent"
-    : "bg-transparent border border-transparent shadow-none";
+  // Text/logo color logic:
+  // - In Hero (white bar): use primary (dark blue)
+  // - Past Hero on dark bg: white
+  // - Past Hero on light bg: primary (dark blue)
+  const showWhiteText = !isInHero && isDarkBg;
 
-  const textClass = showWhite
+  const textClass = showWhiteText
     ? "text-white/90 hover:text-white"
     : "text-foreground/80 hover:text-primary";
 
-  const logoFilter = showWhite ? "brightness-0 invert" : "";
+  const logoFilter = showWhiteText ? "brightness-0 invert" : "";
 
   return (
     <header
@@ -80,7 +86,6 @@ const Header = () => {
     >
       <div className="container mx-auto px-4 py-3">
         <div className={`flex items-center justify-between h-16 md:h-20 rounded-2xl px-6 transition-all duration-500 ${navBg}`}>
-          {/* Logo */}
           <div className="flex items-center flex-shrink-0">
             <img
               src={logoMain}
@@ -89,37 +94,30 @@ const Header = () => {
             />
           </div>
 
-          {/* Desktop Navigation */}
           <nav className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`nav-underline whitespace-nowrap text-sm font-semibold transition-colors duration-500 px-3 py-2 ${textClass}`}
+                className={`nav-underline whitespace-nowrap text-sm font-semibold transition-all duration-500 px-3 py-2 ${textClass}`}
               >
                 {link.label}
               </a>
             ))}
             <a href="#contacto" className="btn-contactanos ml-3">
-              Cont\u00e1ctanos
+              Contáctanos
             </a>
           </nav>
 
-          {/* Mobile Menu Toggle */}
           <button
-            className={`xl:hidden p-2 transition-colors duration-500 ${showWhite ? "text-white" : "text-primary"}`}
+            className={`xl:hidden p-2 transition-colors duration-500 ${showWhiteText ? "text-white" : "text-primary"}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Men\u00fa"
+            aria-label="Menú"
           >
-            {isMobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
 
-        {/* Mobile Menu - always light bg for readability */}
         {isMobileMenuOpen && (
           <div className="xl:hidden bg-white border-t border-border rounded-b-2xl shadow-md animate-fade-in">
             <nav className="flex flex-col py-4">
@@ -133,13 +131,9 @@ const Header = () => {
                   {link.label}
                 </a>
               ))}
-              <div className="px-4 py-3">
-                <a
-                  href="#contacto"
-                  className="btn-contactanos"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Cont\u00e1ctanos
+              <div className="px-4 pt-2 pb-3">
+                <a href="#contacto" className="btn-contactanos" onClick={() => setIsMobileMenuOpen(false)}>
+                  Contáctanos
                 </a>
               </div>
             </nav>
