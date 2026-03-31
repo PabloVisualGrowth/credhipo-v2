@@ -2,7 +2,7 @@ import { useState } from "react";
 import consultantImage from "@/assets/consultant-meeting.jpg";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { Button } from "@/components/ui/button";
-import { X, Linkedin } from "lucide-react";
+import { X, ChevronDown, ChevronUp } from "lucide-react";
 
 const team = [
   {
@@ -56,7 +56,6 @@ const TeamModal = ({ member, onClose }: { member: typeof team[0]; onClose: () =>
       className="bg-white rounded-2xl shadow-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto"
       onClick={(e) => e.stopPropagation()}
     >
-      {/* Header */}
       <div className="relative bg-primary rounded-t-2xl p-8 pb-6">
         <button
           onClick={onClose}
@@ -64,42 +63,30 @@ const TeamModal = ({ member, onClose }: { member: typeof team[0]; onClose: () =>
         >
           <X className="h-5 w-5" />
         </button>
-        {/* Photo placeholder */}
         <div className="w-24 h-24 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center mb-4 mx-auto">
           {member.photo ? (
             <img src={member.photo} alt={member.name} className="w-full h-full rounded-full object-cover" />
           ) : (
-            <span className="text-3xl font-heading font-bold text-white/60">
-              {member.name.charAt(0)}
-            </span>
+            <span className="text-3xl font-heading font-bold text-white/60">{member.name.charAt(0)}</span>
           )}
         </div>
         <h3 className="text-2xl font-heading font-bold text-white text-center">{member.name}</h3>
         <p className="text-primary-foreground/70 text-center mt-1 text-sm font-medium uppercase tracking-wider">{member.role}</p>
       </div>
-
-      {/* Body */}
       <div className="p-8 space-y-6">
-        {/* Bio */}
         <div className="space-y-3">
           {member.bio.map((p, i) => (
             <p key={i} className="text-muted-foreground leading-relaxed">{p}</p>
           ))}
         </div>
-
-        {/* Skills */}
         <div>
           <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3">Especialidades</h4>
           <div className="flex flex-wrap gap-2">
             {member.skills.map((s, i) => (
-              <span key={i} className="bg-primary/10 text-primary text-xs font-medium px-3 py-1.5 rounded-full">
-                {s}
-              </span>
+              <span key={i} className="bg-primary/10 text-primary text-xs font-medium px-3 py-1.5 rounded-full">{s}</span>
             ))}
           </div>
         </div>
-
-        {/* Education */}
         {member.education.length > 0 && (
           <div>
             <h4 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3">Formación</h4>
@@ -120,12 +107,13 @@ const TeamModal = ({ member, onClose }: { member: typeof team[0]; onClose: () =>
 
 const About = () => {
   const [selectedMember, setSelectedMember] = useState<typeof team[0] | null>(null);
+  const [showTeam, setShowTeam] = useState(false);
 
   return (
     <section id="nosotros" className="py-12 md:py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-4">
         <BlurFade inView delay={0}>
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center mb-16 lg:mb-24">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center">
             {/* Image */}
             <div className="relative order-2 lg:order-1">
               <div className="relative rounded-2xl overflow-hidden shadow-elevated">
@@ -146,7 +134,7 @@ const About = () => {
               <h2 className="text-2xl md:text-4xl lg:text-5xl font-heading font-bold text-foreground mb-4 md:mb-6">
                 Donde tu Hogar Comienza
               </h2>
-              <div className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed">
+              <div className="space-y-5 text-muted-foreground text-base md:text-lg leading-relaxed mb-8">
                 <p>
                   CredHipo nace de la experiencia de profesionales del sector inmobiliario, legal y bancario que comparten un mismo objetivo: ayudar a nuestros clientes a tomar decisiones inmobiliarias e hipotecarias con total seguridad y transparencia.
                 </p>
@@ -160,20 +148,28 @@ const About = () => {
                   Porque cuando se trata de tu vivienda o tu inversión, la confianza no es opcional.
                 </p>
               </div>
+
+              {/* Toggle button */}
+              <Button
+                variant="outline"
+                className="rounded-full gap-2"
+                onClick={() => setShowTeam(!showTeam)}
+              >
+                {showTeam ? (
+                  <>Ocultar equipo <ChevronUp className="h-4 w-4" /></>
+                ) : (
+                  <>Conócenos <ChevronDown className="h-4 w-4" /></>
+                )}
+              </Button>
             </div>
           </div>
 
-          {/* Team section */}
-          <div>
-            <div className="text-center mb-10">
-              <span className="inline-block text-xs md:text-sm font-medium text-secondary uppercase tracking-wider mb-3">
-                El equipo
-              </span>
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-foreground">
-                Conócenos
-              </h3>
-            </div>
-
+          {/* Team cards - collapsible */}
+          <div
+            className={`overflow-hidden transition-all duration-500 ease-in-out ${
+              showTeam ? "max-h-[1000px] opacity-100 mt-12 lg:mt-16" : "max-h-0 opacity-0 mt-0"
+            }`}
+          >
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {team.map((member, i) => (
                 <div
@@ -181,14 +177,11 @@ const About = () => {
                   className="group bg-card border border-border/50 rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-elevated hover:border-primary/20 transition-all duration-300 cursor-pointer"
                   onClick={() => setSelectedMember(member)}
                 >
-                  {/* Photo placeholder */}
                   <div className="w-24 h-24 rounded-full bg-primary/10 border-2 border-primary/20 flex items-center justify-center mb-4 group-hover:border-primary/50 transition-colors">
                     {member.photo ? (
                       <img src={member.photo} alt={member.name} className="w-full h-full rounded-full object-cover" />
                     ) : (
-                      <span className="text-2xl font-heading font-bold text-primary/40">
-                        {member.name.charAt(0)}
-                      </span>
+                      <span className="text-2xl font-heading font-bold text-primary/40">{member.name.charAt(0)}</span>
                     )}
                   </div>
                   <h4 className="font-heading font-bold text-foreground text-lg mb-1">{member.name}</h4>
