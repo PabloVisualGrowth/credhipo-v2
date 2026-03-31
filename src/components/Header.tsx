@@ -2,22 +2,17 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import logoMain from "@/assets/logo-main.png";
 
-// Sections with dark (primary/blue) backgrounds
-const DARK_SECTION_IDS = ["inicio", "como-trabajamos", "contacto"];
-const ALL_SECTION_IDS = ["inicio", "servicios", "calculadora", "como-trabajamos", "nosotros", "blog", "contacto"];
-
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isInHero, setIsInHero] = useState(true);
-  const [isDarkBg, setIsDarkBg] = useState(true);
+  const [isInComoTrabajamos, setIsInComoTrabajamos] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const heroHeight = window.innerHeight;
-      setIsInHero(currentScrollY < heroHeight - 80);
+      setIsInHero(currentScrollY < window.innerHeight - 80);
       if (currentScrollY < lastScrollY || currentScrollY < 50) {
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -31,20 +26,13 @@ const Header = () => {
   }, [lastScrollY]);
 
   useEffect(() => {
+    const el = document.getElementById("como-trabajamos");
+    if (!el) return;
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsDarkBg(DARK_SECTION_IDS.includes(entry.target.id));
-          }
-        });
-      },
-      { rootMargin: "-64px 0px -80% 0px", threshold: 0 }
+      ([entry]) => setIsInComoTrabajamos(entry.isIntersecting),
+      { rootMargin: "-64px 0px -20% 0px", threshold: 0 }
     );
-    ALL_SECTION_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
@@ -56,21 +44,13 @@ const Header = () => {
     { href: "#blog", label: "Blog" },
   ];
 
-  // Navbar bg logic:
-  // - In Hero: fully white, solid
-  // - Past Hero + light section: slightly transparent white
-  // - Past Hero + dark section: slightly transparent (dark bg shows through)
   const navBg = isInHero
     ? "bg-white shadow-sm border border-gray-100"
-    : isDarkBg
-      ? "bg-white/15 backdrop-blur-md border border-white/10 shadow-none"
+    : isInComoTrabajamos
+      ? "bg-white/15 backdrop-blur-md border border-white/10"
       : "bg-white/80 backdrop-blur-md border border-white/20 shadow-sm";
 
-  // Text/logo color logic:
-  // - In Hero (white bar): use primary (dark blue)
-  // - Past Hero on dark bg: white
-  // - Past Hero on light bg: primary (dark blue)
-  const showWhiteText = !isInHero && isDarkBg;
+  const showWhiteText = isInComoTrabajamos && !isInHero;
 
   const textClass = showWhiteText
     ? "text-white/90 hover:text-white"
