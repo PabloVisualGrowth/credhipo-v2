@@ -288,3 +288,52 @@
 .nav-dark .nav-underline::before {
   background: hsl(var(--primary-foreground));
 }
+
+/* Contáctanos button with ripple effect */
+.btn-contactanos {
+  position: relative;
+  font-size: 13px;
+  text-decoration: none;
+  padding: 0.55em 1.4em;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6em;
+  transition: all 0.2s;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  color: white;
+  background-color: hsl(var(--primary));
+  z-index: 0;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.btn-contactanos:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px hsl(var(--primary) / 0.35);
+}
+
+.btn-contactanos:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px hsl(var(--primary) / 0.25);
+}
+
+.btn-contactanos::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: 6em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+  background-color: hsl(var(--primary));
+}
+
+.btn-contactanos:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
