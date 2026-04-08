@@ -6,6 +6,7 @@ const sections = [
   { id: "calculadora", label: "Calculadora" },
   { id: "como-trabajamos", label: "Cómo trabajamos" },
   { id: "nosotros", label: "Nosotros" },
+  { id: "equipo", label: "Equipo" },
   { id: "blog", label: "Blog" },
   { id: "contacto", label: "Contacto" },
 ];
