@@ -1,3 +1,4 @@
+import dreamHome from "@/assets/dream-home.jpg";
 import { BlurFade } from "@/components/ui/blur-fade";
 
 const steps = [
@@ -34,26 +35,33 @@ const steps = [
   },
 ];
 
-const NODE_COLOR = "#1B2C59";
-const BG_COLOR = "#FAF9F6";
-const LINE_COLOR = "#cdd0d7";
-const TEXT_MUTED = "rgba(27,44,89,0.55)";
+const LINE_COLOR = "rgba(250,249,246,0.20)";
+const DOT_COLOR = "rgba(250,249,246,0.90)";
+const TEXT_MUTED = "rgba(250,249,246,0.60)";
 
 const Storytelling = () => {
   return (
-    <section id="como-trabajamos" className="py-20 lg:py-32" style={{ backgroundColor: BG_COLOR }}>
-      <div className="container mx-auto px-4">
+    <section id="como-trabajamos" className="py-20 lg:py-32 relative overflow-hidden">
+      {/* Background image + primary overlay — same as original */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: `url(${dreamHome})` }}
+      >
+        <div className="absolute inset-0 bg-primary/95" />
+      </div>
+
+      <div className="container relative z-10 mx-auto px-4">
         <BlurFade inView delay={0}>
 
           {/* Section header */}
           <div className="text-center max-w-2xl mx-auto mb-16 lg:mb-20">
-            <span className="block text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: TEXT_MUTED }}>
+            <span className="block text-xs font-semibold uppercase tracking-widest mb-4 font-body text-primary-foreground/50">
               Proceso
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-5" style={{ color: NODE_COLOR }}>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-5 text-primary-foreground">
               Cómo trabajamos
             </h2>
-            <p className="text-base md:text-lg leading-relaxed font-body" style={{ color: TEXT_MUTED }}>
+            <p className="text-base md:text-lg leading-relaxed font-body text-primary-foreground/65">
               Supervisamos y acompañamos cada fase de la operación hasta la firma final,
               para que todo avance de forma clara y sin sorpresas.
             </p>
@@ -61,7 +69,6 @@ const Storytelling = () => {
 
           {/* ── DESKTOP timeline (md+) ── */}
           <div className="hidden md:block relative">
-            {/* Horizontal connector line — sits behind the circles */}
             <div
               className="absolute"
               style={{
@@ -72,29 +79,23 @@ const Storytelling = () => {
                 backgroundColor: LINE_COLOR,
               }}
             />
-
             <div className="grid grid-cols-4 gap-6 lg:gap-10">
               {steps.map((step, i) => (
                 <div key={i} className="flex flex-col items-center">
-                  {/* Node circle */}
                   <div
                     className="relative z-10 w-10 h-10 rounded-full border-2 flex items-center justify-center mb-6 flex-shrink-0"
-                    style={{ borderColor: NODE_COLOR, backgroundColor: BG_COLOR }}
+                    style={{ borderColor: DOT_COLOR, backgroundColor: "rgba(27,44,89,0.6)" }}
                   >
-                    <span className="text-xs font-bold font-body" style={{ color: NODE_COLOR }}>
+                    <span className="text-xs font-bold font-body text-primary-foreground">
                       {step.number}
                     </span>
                   </div>
-
-                  {/* Title */}
                   <h3
-                    className="font-heading font-bold text-center mb-4 leading-snug"
-                    style={{ color: NODE_COLOR, fontSize: "15px" }}
+                    className="font-heading font-bold text-center mb-4 leading-snug text-primary-foreground"
+                    style={{ fontSize: "15px" }}
                   >
                     {step.title}
                   </h3>
-
-                  {/* Tasks */}
                   <ul className="space-y-2.5 w-full">
                     {step.tasks.map((task, j) => (
                       <li
@@ -104,7 +105,7 @@ const Storytelling = () => {
                       >
                         <span
                           className="mt-1.5 flex-shrink-0 rounded-full"
-                          style={{ width: "5px", height: "5px", backgroundColor: NODE_COLOR, opacity: 0.4 }}
+                          style={{ width: "5px", height: "5px", backgroundColor: DOT_COLOR, opacity: 0.5 }}
                         />
                         {task}
                       </li>
@@ -119,13 +120,12 @@ const Storytelling = () => {
           <div className="md:hidden">
             {steps.map((step, i) => (
               <div key={i} className="flex gap-5">
-                {/* Left column: circle + vertical line */}
                 <div className="flex flex-col items-center flex-shrink-0" style={{ width: "40px" }}>
                   <div
                     className="w-10 h-10 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                    style={{ borderColor: NODE_COLOR, backgroundColor: BG_COLOR }}
+                    style={{ borderColor: DOT_COLOR, backgroundColor: "rgba(27,44,89,0.6)" }}
                   >
-                    <span className="text-xs font-bold font-body" style={{ color: NODE_COLOR }}>
+                    <span className="text-xs font-bold font-body text-primary-foreground">
                       {step.number}
                     </span>
                   </div>
@@ -133,12 +133,10 @@ const Storytelling = () => {
                     <div className="flex-1 w-px my-2" style={{ backgroundColor: LINE_COLOR }} />
                   )}
                 </div>
-
-                {/* Right column: content */}
                 <div className={i < steps.length - 1 ? "pb-10" : "pb-2"}>
                   <h3
-                    className="font-heading font-bold mb-3 leading-snug"
-                    style={{ color: NODE_COLOR, fontSize: "16px" }}
+                    className="font-heading font-bold mb-3 leading-snug text-primary-foreground"
+                    style={{ fontSize: "16px" }}
                   >
                     {step.title}
                   </h3>
@@ -151,7 +149,7 @@ const Storytelling = () => {
                       >
                         <span
                           className="mt-1.5 flex-shrink-0 rounded-full"
-                          style={{ width: "5px", height: "5px", backgroundColor: NODE_COLOR, opacity: 0.4 }}
+                          style={{ width: "5px", height: "5px", backgroundColor: DOT_COLOR, opacity: 0.5 }}
                         />
                         {task}
                       </li>
