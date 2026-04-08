@@ -1,95 +1,87 @@
-import { ArrowRight, TrendingUp, Clock, FileCheck, KeyRound } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import dreamHome from "@/assets/dream-home.jpg";
 import { BlurFade } from "@/components/ui/blur-fade";
 
 const steps = [
   {
-    icon: FileCheck,
     step: "01",
-    title: "Cuéntanos tu situación",
-    description:
-      "Analizamos tu perfil financiero y entendemos tus necesidades para encontrar la mejor hipoteca.",
+    title: "Diagnóstico Financiero",
+    description: "Evaluamos tu situación económica y financiera para analizar la viabilidad de tu operación.",
   },
   {
-    icon: TrendingUp,
     step: "02",
-    title: "Comparamos opciones",
-    description:
-      "Buscamos entre las principales entidades bancarias para ofrecerte las mejores condiciones.",
+    title: "Estrategia",
+    description: "Definimos la mejor estructura para presentar tu operación ante las entidades financieras.",
   },
   {
-    icon: Clock,
     step: "03",
-    title: "Gestionamos todo",
-    description:
-      "Nos encargamos del papeleo, negociaciones y trámites. Tú solo te preocupas de elegir tu casa.",
+    title: "Negociación con Bancos",
+    description: "Contactamos y negociamos con múltiples entidades para conseguir las mejores condiciones.",
   },
   {
-    icon: KeyRound,
     step: "04",
-    title: "Consigues las llaves",
-    description:
-      "Firma tu hipoteca con las mejores condiciones y comienza tu nueva vida en tu hogar.",
+    title: "Firma",
+    description: "Te acompañamos en el cierre con notaría y banco hasta la firma final.",
   },
 ];
 
 const Storytelling = () => {
   return (
-    <section id="como-trabajamos" className="py-20 lg:py-32 relative overflow-hidden">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-fixed"
-        style={{ backgroundImage: `url(${dreamHome})` }}
-      >
-        <div className="absolute inset-0 bg-primary/95" />
-      </div>
-
-      <div className="container relative z-10 mx-auto px-4">
+    <section id="como-trabajamos" className="py-20 lg:py-32 bg-[#FAFAFA]">
+      <div className="container mx-auto px-4">
         <BlurFade inView delay={0}>
           {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="inline-block text-sm font-medium text-primary-foreground/70 uppercase tracking-wider mb-4">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <span className="block text-sm font-semibold text-[#C5A47E] uppercase tracking-widest mb-4">
               Proceso
             </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary-foreground mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-[#0F172A] mb-6">
               Cómo trabajamos
             </h2>
-            <p className="text-lg text-primary-foreground/80">
+            <p className="text-lg text-[#0F172A]/55 leading-relaxed">
               Supervisamos y acompañamos cada fase de la operación, desde el primer análisis hasta la firma final, para que todo avance de forma clara y sin sorpresas.
             </p>
           </div>
 
           {/* Steps */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {steps.map((step, index) => (
-              <div key={index} className="group h-full">
-                <div className="bg-card/10 backdrop-blur-sm rounded-2xl p-6 border border-primary-foreground/10 hover:bg-card/20 transition-all duration-300 h-full">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary-foreground/20 flex items-center justify-center group-hover:bg-primary-foreground group-hover:scale-110 transition-all duration-300">
-                      <step.icon className="h-6 w-6 text-primary-foreground group-hover:text-primary transition-colors" />
-                    </div>
-                    <span className="text-4xl font-heading font-bold text-primary-foreground/20">
+          <div className="relative">
+            {/* Connector line — desktop only, spans card centers */}
+            <div
+              className="hidden lg:block absolute h-px bg-[#C5A47E]/40"
+              style={{ top: "10px", left: "12.5%", right: "12.5%" }}
+            />
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+              {steps.map((step, i) => (
+                <div key={i} className="flex flex-col">
+                  {/* Dot indicator */}
+                  <div className="flex justify-center mb-6">
+                    <div className="w-5 h-5 rounded-full bg-[#C5A47E] ring-4 ring-[#C5A47E]/20 relative z-10 flex-shrink-0" />
+                  </div>
+
+                  {/* Card */}
+                  <div className="relative bg-white rounded-2xl p-7 border border-[#E5E7EB] hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden flex-1">
+                    {/* Decorative number */}
+                    <span
+                      className="absolute -bottom-3 -right-2 font-heading font-bold text-[#E5E7EB] select-none leading-none"
+                      style={{ fontSize: "6rem" }}
+                    >
                       {step.step}
                     </span>
-                  </div>
-                  <h3 className="text-xl font-heading font-semibold text-primary-foreground mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-primary-foreground/70 leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
 
-          {/* CTA */}
-          <div className="text-center">
-            <Button variant="hero" size="xl">
-              Hablar con un asesor
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+                    <div className="relative z-10">
+                      <p className="text-xs font-bold text-[#C5A47E] uppercase tracking-widest mb-3">
+                        {step.step}
+                      </p>
+                      <h3 className="text-lg font-heading font-bold text-[#0F172A] mb-3 leading-snug">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm text-[#0F172A]/55 leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </BlurFade>
       </div>
