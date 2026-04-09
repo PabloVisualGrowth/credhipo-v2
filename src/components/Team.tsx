@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { X } from "lucide-react";
 
 const members = [
   {
@@ -21,106 +22,166 @@ const members = [
   },
 ];
 
-const Team = () => (
-  <section id="equipo" className="py-20 lg:py-32" style={{ backgroundColor: "#1B2C59" }}>
-    <div className="container mx-auto px-4">
+const N = members.length;
+// Each card peek offset when stacked behind
+const PEEK = 18; // px — how much of each card below is visible
 
-      {/* Header */}
-      <motion.div
-        className="text-center mb-16 lg:mb-20"
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+const Team = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [expanded, setExpanded] = useState<number | null>(null);
+
+  // Drive active card from scroll position within the section
+  useEffect(() => {
+    const handleScroll = () => {
+      const el = sectionRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const sectionH = el.offsetHeight;
+      const scrolled = -rect.top; // px scrolled into section
+      if (scrolled < 0) { setActiveIndex(0); return; }
+      // Each card gets an equal slice of scrollable distance
+      const sliceH = (sectionH - window.innerHeight) / (N - 1 || 1);
+      const idx = Math.min(Math.floor(scrolled / sliceH), N - 1);
+      setActiveIndex(idx);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // When active card changes, close expanded view
+  useEffect(() => { setExpanded(null); }, [activeIndex]);
+
+  return (
+    <section
+      id="equipo"
+      ref={sectionRef}
+      // Tall enough to scroll through all cards
+      style={{ height: `${N * 100}vh`, backgroundColor: "#1B2C59" }}
+    >
+      {/* Sticky viewport — stays on screen while section scrolls */}
+      <div
+        className="sticky top-0 flex flex-col items-center justify-center overflow-hidden"
+        style={{ height: "100vh" }}
       >
-        <span
-          className="block text-xs font-semibold uppercase tracking-widest mb-4 font-body"
-          style={{ color: "#757e98" }}
-        >
-          El Equipo
-        </span>
-        <h2
-          className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold"
-          style={{ color: "#FAF9F6" }}
-        >
-          Liderazgo y Experiencia
-        </h2>
-      </motion.div>
+        {/* Section header */}
+        <div className="text-center mb-10 z-10 relative">
+          <span className="block text-xs font-semibold uppercase tracking-widest mb-3 font-body" style={{ color: "#757e98" }}>
+            El Equipo
+          </span>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold" style={{ color: "#FAF9F6" }}>
+            Liderazgo y Experiencia
+          </h2>
+        </div>
 
-      {/* Cards */}
-      <div className="space-y-8 lg:space-y-10 max-w-4xl mx-auto">
-        {members.map((member, i) => (
-          <div
-            key={i}
-            className="rounded-2xl overflow-hidden flex flex-col md:flex-row"
-            style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
-          >
-            {/* Photo — left on desktop, top on mobile */}
-            <div
-              className="flex-shrink-0 flex items-center justify-center md:w-56 lg:w-64 min-h-[220px] md:min-h-0"
-              style={{ backgroundColor: "rgba(73,85,121,0.35)" }}
-            >
-              {member.photo ? (
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <div className="flex flex-col items-center gap-3 py-10 px-8">
+        {/* Card stack */}
+        <div className="relative w-full max-w-xl mx-auto px-4" style={{ height: "420px" }}>
+          {members.map((member, i) => {
+            const isActive = i === activeIndex;
+            const isBehind = i > activeIndex;
+            const isPast = i < activeIndex;
+            const isExpanded = expanded === i && isActive;
+
+            // Stack offset: cards behind peek out below
+            const stackOffset = isBehind ? (i - activeIndex) * PEEK : 0;
+            // Past cards slide up and out
+            const pastOffset = isPast ? -440 : 0;
+            const scale = isBehind ? 1 - (i - activeIndex) * 0.04 : 1;
+            const zIndex = N - Math.abs(i - activeIndex);
+
+            return (
+              <div
+                key={i}
+                onClick={() => isActive && setExpanded(isExpanded ? null : i)}
+                style={{
+                  position: "absolute",
+                  left: 0, right: 0,
+                  top: 0,
+                  height: isExpanded ? "auto" : "380px",
+                  maxHeight: isExpanded ? "80vh" : "380px",
+                  overflowY: isExpanded ? "auto" : "hidden",
+                  backgroundColor: i % 2 === 0 ? "#FAF9F6" : "#ffffff",
+                  borderRadius: "20px",
+                  zIndex,
+                  transform: `translateY(${stackOffset + pastOffset}px) scale(${scale})`,
+                  transformOrigin: "top center",
+                  transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1), max-height 0.4s ease, box-shadow 0.3s",
+                  boxShadow: isActive
+                    ? "0 24px 60px rgba(0,0,0,0.35)"
+                    : "0 8px 24px rgba(0,0,0,0.20)",
+                  cursor: isActive ? "pointer" : "default",
+                }}
+              >
+                {/* Collapsed view — always visible */}
+                <div className="flex items-center gap-5 p-7 pb-0">
+                  {/* Photo placeholder */}
                   <div
-                    className="w-20 h-20 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: "rgba(250,249,246,0.10)" }}
+                    className="flex-shrink-0 rounded-full flex items-center justify-center"
+                    style={{ width: "72px", height: "72px", backgroundColor: "#1B2C59", opacity: 0.10 }}
                   >
-                    <span
-                      className="text-3xl font-heading font-bold"
-                      style={{ color: "rgba(250,249,246,0.35)" }}
-                    >
-                      {member.name.charAt(0)}
-                    </span>
+                    {member.photo ? (
+                      <img src={member.photo} alt={member.name} className="w-full h-full rounded-full object-cover" />
+                    ) : (
+                      <span style={{ fontSize: "26px", fontFamily: "Roboto Slab, serif", fontWeight: 700, color: "#1B2C59", opacity: 1 }}>
+                        {member.name.charAt(0)}
+                      </span>
+                    )}
                   </div>
-                  <span
-                    className="text-xs font-body"
-                    style={{ color: "rgba(250,249,246,0.2)" }}
-                  >
-                    Foto próximamente
-                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p style={{ fontSize: "11px", fontFamily: "Poppins, sans-serif", fontWeight: 600, color: "#a1a7b7", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
+                      {member.role}
+                    </p>
+                    <h3 style={{ fontSize: "20px", fontFamily: "Roboto Slab, serif", fontWeight: 700, color: "#1B2C59", lineHeight: 1.2 }}>
+                      {member.name}
+                    </h3>
+                  </div>
+                  {isActive && (
+                    <div style={{ flexShrink: 0, color: "#1B2C59", opacity: 0.35, fontSize: "12px", fontFamily: "Poppins, sans-serif" }}>
+                      {isExpanded ? <X size={18} /> : <span>↓ Leer más</span>}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
 
-            {/* Text — slides in from right */}
-            <motion.div
-              className="flex-1 p-8 lg:p-10"
-              initial={{ x: 50, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.65, delay: 0.1, ease: "easeOut" }}
-            >
-              <p
-                className="text-xs font-semibold uppercase tracking-widest mb-2 font-body"
-                style={{ color: "#a1a7b7" }}
-              >
-                {member.role}
-              </p>
-              <h3
-                className="text-xl lg:text-2xl font-heading font-bold mb-5"
-                style={{ color: "#FAF9F6" }}
-              >
-                {member.name}
-              </h3>
-              <p
-                className="font-body leading-relaxed"
-                style={{ fontSize: "15px", lineHeight: "1.7", color: "rgba(250,249,246,0.72)" }}
-              >
-                {member.bio}
-              </p>
-            </motion.div>
-          </div>
-        ))}
+                {/* Divider */}
+                <div style={{ margin: "20px 28px 0", height: "1px", backgroundColor: "#1B2C59", opacity: 0.08 }} />
+
+                {/* Teaser — 2 lines visible when collapsed */}
+                <p style={{
+                  padding: "16px 28px 28px",
+                  fontSize: "14px", fontFamily: "Poppins, sans-serif",
+                  color: "#495579", lineHeight: 1.65,
+                  display: "-webkit-box",
+                  WebkitLineClamp: isExpanded ? "none" : 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: isExpanded ? "visible" : "hidden",
+                }}>
+                  {member.bio}
+                </p>
+
+                {/* Scroll hint dots — only on active, collapsed */}
+                {isActive && !isExpanded && (
+                  <div className="flex justify-center gap-1.5 pb-5">
+                    {members.map((_, di) => (
+                      <div key={di} style={{
+                        width: "6px", height: "6px", borderRadius: "50%",
+                        backgroundColor: di === activeIndex ? "#1B2C59" : "#1B2C59",
+                        opacity: di === activeIndex ? 0.7 : 0.15,
+                      }} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Scroll hint */}
+        <p className="mt-8 font-body text-xs" style={{ color: "rgba(250,249,246,0.30)", letterSpacing: "0.08em" }}>
+          {activeIndex < N - 1 ? "Sigue haciendo scroll ↓" : "Haz clic en la tarjeta para leer el perfil completo"}
+        </p>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Team;
