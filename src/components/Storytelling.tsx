@@ -181,12 +181,29 @@ const Storytelling = () => {
                 <div style={{ height: `${ABOVE}px` }} />
                 {/* Star in circle row */}
                 <div className="flex items-center justify-center relative" style={{ height: `${CIRC}px`, width: "100%" }}>
-                  <div style={{
-                    position: "absolute", top: "50%", left: 0, right: `calc(50% + ${CIRC / 2 + 6}px)`,
-                    height: "2px",
-                    backgroundColor: "rgba(250,249,246,0.25)",
-                    transform: "translateY(-50%)",
-                  }} />
+                  <svg
+                    style={{
+                      position: "absolute", top: "50%", left: 0,
+                      width: `calc(50% + ${CIRC / 2}px)`,
+                      height: "20px",
+                      transform: "translateY(-50%)",
+                      overflow: "visible",
+                    }}
+                    preserveAspectRatio="none"
+                  >
+                    <defs>
+                      <marker id="arrowhead" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+                        <polygon points="0 0, 7 3.5, 0 7" fill="rgba(250,249,246,0.50)" />
+                      </marker>
+                    </defs>
+                    <line
+                      x1="0" y1="10"
+                      x2="100%" y2="10"
+                      stroke="rgba(250,249,246,0.25)"
+                      strokeWidth="2"
+                      markerEnd="url(#arrowhead)"
+                    />
+                  </svg>
                   <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none">
                       <polygon
