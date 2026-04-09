@@ -86,7 +86,7 @@ const Header = () => {
                 {link.label}
               </a>
             ))}
-            <a href="#contacto" className="btn-contactanos ml-3">
+            <a href="https://credhipo-v2.vercel.app/#contacto" className="btn-contactanos ml-3">
               Contáctanos
             </a>
           </nav>
@@ -114,7 +114,7 @@ const Header = () => {
                 </a>
               ))}
               <div className="px-4 pt-2 pb-3">
-                <a href="#contacto" className="btn-contactanos" onClick={() => setIsMobileMenuOpen(false)}>
+                <a href="https://credhipo-v2.vercel.app/#contacto" className="btn-contactanos" onClick={() => setIsMobileMenuOpen(false)}>
                   Contáctanos
                 </a>
               </div>
