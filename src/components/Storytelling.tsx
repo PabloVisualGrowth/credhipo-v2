@@ -6,25 +6,25 @@ const steps = [
   {
     number: "01",
     title: "Contacto con Bancos",
-    tasks: ["Contactamos con los bancos para conseguir las mejores condiciones", "Rellenamos las solicitudes y gestionamos la tasación"],
+    tasks: ["Contactamos con los bancos para conseguirte las mejores condiciones", "Rellenamos las solicitudes y gestionamos tu tasación"],
     above: false,
   },
   {
     number: "02",
     title: "Cierre con Cliente",
-    tasks: ["Informamos al cliente de las condiciones conseguidas", "Presentamos las opciones y elegimos juntos la propuesta más interesante", "Gestionamos la firma de la FEIN"],
+    tasks: ["Te informamos de las condiciones conseguidas", "Te presentamos las opciones y elegimos juntos la más interesante", "Gestionamos la firma de tu FEIN"],
     above: true,
   },
   {
     number: "03",
     title: "Preparar Firma",
-    tasks: ["Preparamos y coordinamos la firma con la notaría y el cliente"],
+    tasks: ["Preparamos y coordinamos tu firma con la notaría"],
     above: false,
   },
   {
     number: "04",
     title: "Notaría",
-    tasks: ["Acompañamos al cliente en la firma ante notario"],
+    tasks: ["Te acompañamos en la firma ante notario"],
     above: true,
   },
 ];
