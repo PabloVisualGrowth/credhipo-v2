@@ -14,10 +14,10 @@ const Footer = () => {
       { label: "Contacto", href: "#contacto" },
     ],
     legal: [
-      { label: "Política de privacidad", href: "#" },
-      { label: "Política de cookies", href: "#" },
-      { label: "Aviso legal", href: "#" },
-      { label: "Términos y condiciones", href: "#" },
+      { label: "Política de privacidad", href: "/privacidad" },
+      { label: "Política de cookies", href: "/cookies" },
+      { label: "Aviso legal", href: "/aviso-legal" },
+      { label: "Términos y condiciones", href: "/terminos" },
     ],
   };
 
