@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { X } from "lucide-react";
 
 const members = [
   {
@@ -76,7 +75,7 @@ const Team = () => {
         </div>
 
         {/* Card stack */}
-        <div className="relative w-full max-w-xl mx-auto px-4" style={{ height: "420px" }}>
+        <div className="relative w-full max-w-xl mx-auto px-4" style={{ height: "400px" }}>
           {members.map((member, i) => {
             const isActive = i === activeIndex;
             const isBehind = i > activeIndex;
@@ -98,8 +97,8 @@ const Team = () => {
                   position: "absolute",
                   left: 0, right: 0,
                   top: 0,
-                  height: isExpanded ? "auto" : "380px",
-                  maxHeight: isExpanded ? "80vh" : "380px",
+                  height: isExpanded ? "auto" : "360px",
+                  maxHeight: isExpanded ? "80vh" : "360px",
                   overflowY: isExpanded ? "auto" : "hidden",
                   backgroundColor: i % 2 === 0 ? "#FAF9F6" : "#ffffff",
                   borderRadius: "20px",
