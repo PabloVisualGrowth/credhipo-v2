@@ -1,40 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import logoMain from "@/assets/logo-main.png";
 
 const Header = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isInHero, setIsInHero] = useState(true);
-  const [isInComoTrabajamos, setIsInComoTrabajamos] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsInHero(currentScrollY < window.innerHeight - 80);
-      if (currentScrollY < lastScrollY || currentScrollY < 50) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-        setIsMobileMenuOpen(false);
-      }
-      setLastScrollY(currentScrollY);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
-
-  useEffect(() => {
-    const el = document.getElementById("como-trabajamos");
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsInComoTrabajamos(entry.isIntersecting),
-      { rootMargin: "-64px 0px -20% 0px", threshold: 0 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   const navLinks = [
     { href: "#servicios", label: "Servicios" },
@@ -44,33 +13,15 @@ const Header = () => {
     { href: "#blog", label: "Blog" },
   ];
 
-  const navBg = isInHero
-    ? "bg-white shadow-sm border border-gray-100"
-    : isInComoTrabajamos
-      ? "bg-white/15 backdrop-blur-md border border-white/10"
-      : "bg-white/80 backdrop-blur-md border border-white/20 shadow-sm";
-
-  const showWhiteText = isInComoTrabajamos && !isInHero;
-
-  const textClass = showWhiteText
-    ? "text-white/90 hover:text-white"
-    : "text-foreground/80 hover:text-primary";
-
-  const logoFilter = showWhiteText ? "brightness-0 invert" : "";
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      }`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50">
       <div className="container mx-auto px-4 py-3">
-        <div className={`flex items-center justify-between h-16 md:h-20 rounded-2xl px-6 transition-all duration-500 ${navBg}`}>
+        <div className="flex items-center justify-between h-16 md:h-20 rounded-2xl px-6 bg-white shadow-sm border border-gray-100">
           <div className="flex items-center flex-shrink-0">
             <img
               src={logoMain}
               alt="CredHipo"
-              className={`h-10 md:h-14 w-auto transition-all duration-500 ${logoFilter}`}
+              className="h-10 md:h-14 w-auto"
             />
           </div>
 
@@ -79,7 +30,7 @@ const Header = () => {
               <a
                 key={link.href}
                 href={link.href}
-                className={`nav-underline whitespace-nowrap text-sm font-semibold transition-all duration-500 px-3 py-2 ${textClass}`}
+                className="nav-underline whitespace-nowrap text-sm font-semibold px-3 py-2 text-foreground/80 hover:text-primary"
               >
                 {link.label}
               </a>
@@ -90,7 +41,7 @@ const Header = () => {
           </nav>
 
           <button
-            className={`xl:hidden p-2 transition-colors duration-500 ${showWhiteText ? "text-white" : "text-primary"}`}
+            className="xl:hidden p-2 text-primary"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Menú"
           >
