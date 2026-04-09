@@ -2,18 +2,31 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import logoMain from "@/assets/logo-main.png";
 
+const NAVBAR_HEIGHT = 88; // px — approximate bottom of navbar
+const DARK_IDS = ["como-trabajamos", "equipo"];
+
+const isNavbarOverDarkSection = () => {
+  return DARK_IDS.some((id) => {
+    const el = document.getElementById(id);
+    if (!el) return false;
+    const rect = el.getBoundingClientRect();
+    // Dark if section top is above navbar bottom AND section bottom is below page top
+    return rect.top <= NAVBAR_HEIGHT && rect.bottom >= 0;
+  });
+};
+
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isInHero, setIsInHero] = useState(window.scrollY < window.innerHeight - 80);
-  const [isDarkSection, setIsDarkSection] = useState(false);
+  const [isDarkSection, setIsDarkSection] = useState(isNavbarOverDarkSection);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Hide on scroll down, show on scroll up + hero detection
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setIsInHero(currentScrollY < window.innerHeight - 80);
+      setIsDarkSection(isNavbarOverDarkSection());
       if (currentScrollY < lastScrollY || currentScrollY < 50) {
         setIsVisible(true);
       } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -26,26 +39,6 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Detect dark background sections
-  useEffect(() => {
-    const darkIds = ["como-trabajamos", "equipo", "contacto"];
-    const active = new Set<string>();
-    const observers = darkIds.map((id) => {
-      const el = document.getElementById(id);
-      if (!el) return null;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          entry.isIntersecting ? active.add(id) : active.delete(id);
-          setIsDarkSection(active.size > 0);
-        },
-        { rootMargin: "-64px 0px -20% 0px", threshold: 0 }
-      );
-      obs.observe(el);
-      return obs;
-    });
-    return () => observers.forEach((o) => o?.disconnect());
-  }, []);
-
   const navLinks = [
     { href: "#servicios", label: "Servicios" },
     { href: "#nosotros", label: "Nosotros" },
@@ -54,16 +47,12 @@ const Header = () => {
     { href: "#blog", label: "Blog" },
   ];
 
-  // Page 1 (hero): white opaque pill
-  // Page 2+ dark section: transparent + white text
-  // Page 2+ light section: semi-transparent white + dark text
+  // White pill always — except when physically over a dark blue section
   const onDark = !isInHero && isDarkSection;
 
-  const navBg = isInHero
-    ? "bg-white shadow-sm border border-gray-100"
-    : isDarkSection
-      ? "bg-white/10 backdrop-blur-md border border-white/15"
-      : "bg-white/75 backdrop-blur-md border border-gray-100/60 shadow-sm";
+  const navBg = onDark
+    ? "bg-white/10 backdrop-blur-md border border-white/15"
+    : "bg-white shadow-sm border border-gray-100";
 
   const textClass = onDark
     ? "text-white/85 hover:text-white"
