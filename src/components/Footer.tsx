@@ -7,12 +7,6 @@ const Footer = () => {
   const [showReclamaciones, setShowReclamaciones] = useState(false);
 
   const links = {
-    servicios: [
-      { label: "Hipotecas para compra", href: "#" },
-      { label: "Subrogación de hipoteca", href: "#" },
-      { label: "Hipotecas 100%", href: "#" },
-      { label: "Hipotecas para extranjeros", href: "#" },
-    ],
     empresa: [
       { label: "Sobre nosotros", href: "#nosotros" },
       { label: "Blog", href: "#blog" },
@@ -38,7 +32,7 @@ const Footer = () => {
     <>
       <footer className="bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-16">
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
             {/* Brand */}
             <div className="lg:col-span-2">
               <img
@@ -63,20 +57,6 @@ const Footer = () => {
                   </a>
                 ))}
               </div>
-            </div>
-
-            {/* Servicios */}
-            <div>
-              <h4 className="font-heading font-semibold text-lg mb-4">Servicios</h4>
-              <ul className="space-y-3">
-                {links.servicios.map((link, index) => (
-                  <li key={index}>
-                    <a href={link.href} className="text-primary-foreground/70 hover:text-primary-foreground transition-colors">
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
             </div>
 
             {/* Empresa */}
@@ -104,6 +84,14 @@ const Footer = () => {
                     </a>
                   </li>
                 ))}
+                <li>
+                  <button
+                    onClick={() => setShowReclamaciones(true)}
+                    className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-left"
+                  >
+                    Atención al Cliente y Reclamaciones
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
@@ -113,12 +101,6 @@ const Footer = () => {
             <p className="text-sm text-primary-foreground/60">
               © 2026 CredHipo. Todos los derechos reservados.
             </p>
-            <button
-              onClick={() => setShowReclamaciones(true)}
-              className="text-xs text-primary-foreground/45 hover:text-primary-foreground/70 transition-colors underline underline-offset-2 cursor-pointer"
-            >
-              Atención al Cliente y Reclamaciones
-            </button>
             <p className="text-sm text-primary-foreground/60">
               CredHipo es un intermediario de crédito inmobiliario registrado.
             </p>
