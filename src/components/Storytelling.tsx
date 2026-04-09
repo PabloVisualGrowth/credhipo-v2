@@ -1,3 +1,4 @@
+import { useState } from "react";
 import dreamHome from "@/assets/dream-home.jpg";
 import { BlurFade } from "@/components/ui/blur-fade";
 
@@ -35,14 +36,79 @@ const steps = [
   },
 ];
 
-const LINE_COLOR = "rgba(250,249,246,0.20)";
-const DOT_COLOR = "rgba(250,249,246,0.90)";
-const TEXT_MUTED = "rgba(250,249,246,0.60)";
+const StepNode = ({ step, index }: { step: typeof steps[0]; index: number }) => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      className="flex flex-col items-center"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Circle node */}
+      <div
+        className="relative w-14 h-14 rounded-full flex items-center justify-center mb-6 flex-shrink-0 cursor-default"
+        style={{
+          border: "2px solid rgba(250,249,246,0.55)",
+          backgroundColor: hovered ? "rgba(250,249,246,0.15)" : "transparent",
+          boxShadow: hovered ? "0 0 0 8px rgba(250,249,246,0.07), 0 0 24px rgba(250,249,246,0.12)" : "none",
+          transition: "all 0.35s ease",
+        }}
+      >
+        <span
+          className="text-sm font-bold font-body"
+          style={{
+            color: hovered ? "#FAF9F6" : "rgba(250,249,246,0.75)",
+            transition: "color 0.35s ease",
+            letterSpacing: "0.05em",
+          }}
+        >
+          {step.number}
+        </span>
+      </div>
+
+      {/* Title */}
+      <h3
+        className="font-heading font-bold text-center mb-4 leading-snug transition-colors duration-300"
+        style={{
+          color: hovered ? "#FAF9F6" : "rgba(250,249,246,0.85)",
+          fontSize: "15px",
+        }}
+      >
+        {step.title}
+      </h3>
+
+      {/* Tasks */}
+      <ul className="space-y-2.5 w-full">
+        {step.tasks.map((task, j) => (
+          <li
+            key={j}
+            className="flex items-start gap-2 font-body leading-snug transition-colors duration-300"
+            style={{
+              fontSize: "13px",
+              color: hovered ? "rgba(250,249,246,0.75)" : "rgba(250,249,246,0.45)",
+            }}
+          >
+            <span
+              className="mt-1.5 flex-shrink-0 rounded-full transition-opacity duration-300"
+              style={{
+                width: "4px",
+                height: "4px",
+                backgroundColor: "rgba(250,249,246,0.6)",
+                opacity: hovered ? 1 : 0.5,
+              }}
+            />
+            {task}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 const Storytelling = () => {
   return (
     <section id="como-trabajamos" className="py-20 lg:py-32 relative overflow-hidden">
-      {/* Background image + primary overlay — same as original */}
+      {/* Background image + primary overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: `url(${dreamHome})` }}
@@ -67,96 +133,17 @@ const Storytelling = () => {
             </p>
           </div>
 
-          {/* ── DESKTOP timeline (md+) ── */}
-          <div className="hidden md:block relative">
-            <div
-              className="absolute"
-              style={{
-                top: "19px",
-                left: "calc(12.5% + 20px)",
-                right: "calc(12.5% + 20px)",
-                height: "1px",
-                backgroundColor: LINE_COLOR,
-              }}
-            />
-            <div className="grid grid-cols-4 gap-6 lg:gap-10">
-              {steps.map((step, i) => (
-                <div key={i} className="flex flex-col items-center">
-                  <div
-                    className="relative z-10 w-10 h-10 rounded-full border-2 flex items-center justify-center mb-6 flex-shrink-0"
-                    style={{ borderColor: DOT_COLOR, backgroundColor: "rgba(27,44,89,0.6)" }}
-                  >
-                    <span className="text-xs font-bold font-body text-primary-foreground">
-                      {step.number}
-                    </span>
-                  </div>
-                  <h3
-                    className="font-heading font-bold text-center mb-4 leading-snug text-primary-foreground"
-                    style={{ fontSize: "15px" }}
-                  >
-                    {step.title}
-                  </h3>
-                  <ul className="space-y-2.5 w-full">
-                    {step.tasks.map((task, j) => (
-                      <li
-                        key={j}
-                        className="flex items-start gap-2 font-body leading-snug"
-                        style={{ fontSize: "13px", color: TEXT_MUTED }}
-                      >
-                        <span
-                          className="mt-1.5 flex-shrink-0 rounded-full"
-                          style={{ width: "5px", height: "5px", backgroundColor: DOT_COLOR, opacity: 0.5 }}
-                        />
-                        {task}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+          {/* Desktop grid — no connector line */}
+          <div className="hidden md:grid grid-cols-4 gap-6 lg:gap-10">
+            {steps.map((step, i) => (
+              <StepNode key={i} step={step} index={i} />
+            ))}
           </div>
 
-          {/* ── MOBILE timeline (< md) ── */}
-          <div className="md:hidden">
+          {/* Mobile vertical */}
+          <div className="md:hidden space-y-10">
             {steps.map((step, i) => (
-              <div key={i} className="flex gap-5">
-                <div className="flex flex-col items-center flex-shrink-0" style={{ width: "40px" }}>
-                  <div
-                    className="w-10 h-10 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                    style={{ borderColor: DOT_COLOR, backgroundColor: "rgba(27,44,89,0.6)" }}
-                  >
-                    <span className="text-xs font-bold font-body text-primary-foreground">
-                      {step.number}
-                    </span>
-                  </div>
-                  {i < steps.length - 1 && (
-                    <div className="flex-1 w-px my-2" style={{ backgroundColor: LINE_COLOR }} />
-                  )}
-                </div>
-                <div className={i < steps.length - 1 ? "pb-10" : "pb-2"}>
-                  <h3
-                    className="font-heading font-bold mb-3 leading-snug text-primary-foreground"
-                    style={{ fontSize: "16px" }}
-                  >
-                    {step.title}
-                  </h3>
-                  <ul className="space-y-2">
-                    {step.tasks.map((task, j) => (
-                      <li
-                        key={j}
-                        className="flex items-start gap-2 font-body leading-snug"
-                        style={{ fontSize: "14px", color: TEXT_MUTED }}
-                      >
-                        <span
-                          className="mt-1.5 flex-shrink-0 rounded-full"
-                          style={{ width: "5px", height: "5px", backgroundColor: DOT_COLOR, opacity: 0.5 }}
-                        />
-                        {task}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+              <StepNode key={i} step={step} index={i} />
             ))}
           </div>
 
