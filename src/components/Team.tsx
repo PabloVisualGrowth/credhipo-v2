@@ -58,7 +58,7 @@ const Team = () => {
 
       <div
         className="sticky top-0 flex flex-col items-center justify-center overflow-hidden"
-        style={{ height: "100vh", position: "relative", zIndex: 1 }}
+        style={{ height: "100vh", zIndex: 1 }}
       >
         {/* Section header */}
         <div className="text-center mb-10 z-10 relative">
