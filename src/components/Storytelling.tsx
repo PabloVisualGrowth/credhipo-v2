@@ -205,12 +205,12 @@ const Storytelling = () => {
                     />
                   </svg>
                   <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none">
+                    <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none" className="animate-pulse-star">
                       <polygon
                         points="28,5 33.5,20 50,20 37,30 42,47 28,37 14,47 19,30 6,20 22.5,20"
-                        fill="none"
-                        stroke="rgba(250,249,246,0.65)"
-                        strokeWidth="1.8"
+                        fill="rgba(250,249,246,0.90)"
+                        stroke="rgba(250,249,246,0.90)"
+                        strokeWidth="1"
                         strokeLinejoin="round"
                       />
                     </svg>
