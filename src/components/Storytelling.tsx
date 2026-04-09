@@ -127,7 +127,7 @@ const Storytelling = () => {
                         width: `${CIRC}px`, height: `${CIRC}px`,
                         borderRadius: "50%",
                         border: "2px solid rgba(250,249,246,0.65)",
-                        backgroundColor: isHov ? "rgba(250,249,246,0.16)" : "rgba(27,44,89,0.70)",
+                        backgroundColor: isHov ? "#2a3f72" : "#172447",
                         boxShadow: isHov ? "0 0 0 10px rgba(250,249,246,0.06), 0 0 28px rgba(250,249,246,0.12)" : "none",
                         display: "flex", alignItems: "center", justifyContent: "center",
                         transition: "all 0.3s ease",
@@ -187,8 +187,14 @@ const Storytelling = () => {
                     backgroundColor: "rgba(250,249,246,0.25)",
                     transform: "translateY(-50%)",
                   }} />
-                  <div style={{ position: "relative", zIndex: 1 }}>
-                    <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none">
+                  <div style={{
+                    position: "relative", zIndex: 1,
+                    width: `${CIRC}px`, height: `${CIRC}px`,
+                    borderRadius: "50%",
+                    backgroundColor: "#172447",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    <svg width={CIRC - 8} height={CIRC - 8} viewBox="0 0 56 56" fill="none">
                       <polygon
                         points="28,5 33.5,20 50,20 37,30 42,47 28,37 14,47 19,30 6,20 22.5,20"
                         fill="rgba(250,249,246,0.10)"
