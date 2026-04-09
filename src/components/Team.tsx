@@ -105,7 +105,9 @@ const Team = () => {
                   zIndex,
                   transform: `translateY(${stackOffset + pastOffset}px) scale(${scale})`,
                   transformOrigin: "top center",
-                  transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1), max-height 0.4s ease, box-shadow 0.3s",
+                  opacity: isPast ? 0 : 1,
+                  pointerEvents: isPast ? "none" : "auto",
+                  transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease, max-height 0.4s ease, box-shadow 0.3s",
                   boxShadow: isActive
                     ? "0 24px 60px rgba(0,0,0,0.35)"
                     : "0 8px 24px rgba(0,0,0,0.20)",
@@ -128,9 +130,6 @@ const Team = () => {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p style={{ fontSize: "11px", fontFamily: "Poppins, sans-serif", fontWeight: 600, color: "#a1a7b7", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
-                      {member.role}
-                    </p>
                     <h3 style={{ fontSize: "20px", fontFamily: "Roboto Slab, serif", fontWeight: 700, color: "#1B2C59", lineHeight: 1.2 }}>
                       {member.name}
                     </h3>
