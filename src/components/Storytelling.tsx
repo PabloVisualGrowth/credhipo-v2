@@ -184,7 +184,7 @@ const Storytelling = () => {
                   <svg
                     style={{
                       position: "absolute", top: "50%", left: 0,
-                      width: `calc(50% + ${CIRC / 2}px)`,
+                      width: `calc(50% - ${CIRC / 2 + 8}px)`,
                       height: "20px",
                       transform: "translateY(-50%)",
                       overflow: "visible",
