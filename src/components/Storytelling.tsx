@@ -187,19 +187,19 @@ const Storytelling = () => {
                     backgroundColor: "rgba(250,249,246,0.25)",
                     transform: "translateY(-50%)",
                   }} />
-                  <div style={{
-                    position: "relative", zIndex: 1,
-                    width: `${CIRC}px`, height: `${CIRC}px`,
-                    borderRadius: "50%",
-                    backgroundColor: "#172447",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                  }}>
-                    <svg width={CIRC - 8} height={CIRC - 8} viewBox="0 0 56 56" fill="none">
+                  <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {/* Solid rect behind star to cover the line */}
+                    <div style={{
+                      position: "absolute",
+                      width: `${CIRC - 8}px`, height: `${CIRC - 8}px`,
+                      backgroundColor: "#172447",
+                    }} />
+                    <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none" style={{ position: "relative", zIndex: 1 }}>
                       <polygon
                         points="28,5 33.5,20 50,20 37,30 42,47 28,37 14,47 19,30 6,20 22.5,20"
-                        fill="rgba(250,249,246,0.10)"
-                        stroke="rgba(250,249,246,0.60)"
-                        strokeWidth="1.5"
+                        fill="#172447"
+                        stroke="rgba(250,249,246,0.65)"
+                        strokeWidth="1.8"
                         strokeLinejoin="round"
                       />
                     </svg>
