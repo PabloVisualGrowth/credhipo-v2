@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { X } from "lucide-react";
 
 const members = [
   {
@@ -23,111 +23,162 @@ const members = [
 ];
 
 const N = members.length;
-const PEEK = 16;
+// Each card peek offset when stacked behind
+const PEEK = 18; // px — how much of each card below is visible
 
 const Team = () => {
-  const [active, setActive] = useState(0);
-  const [expanded, setExpanded] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [expanded, setExpanded] = useState<number | null>(null);
 
-  const prev = () => { setActive(i => Math.max(0, i - 1)); setExpanded(false); };
-  const next = () => { setActive(i => Math.min(N - 1, i + 1)); setExpanded(false); };
+  // Drive active card from scroll position within the section
+  useEffect(() => {
+    const handleScroll = () => {
+      const el = sectionRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const sectionH = el.offsetHeight;
+      const scrolled = -rect.top; // px scrolled into section
+      if (scrolled < 0) { setActiveIndex(0); return; }
+      // Each card gets an equal slice of scrollable distance
+      const sliceH = (sectionH - window.innerHeight) / (N - 1 || 1);
+      const idx = Math.min(Math.floor(scrolled / sliceH), N - 1);
+      setActiveIndex(idx);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // When active card changes, close expanded view
+  useEffect(() => { setExpanded(null); }, [activeIndex]);
 
   return (
-    <section id="equipo" className="h-screen flex flex-col items-center justify-center" style={{ backgroundColor: "#1B2C59" }}>
-      {/* Header */}
-      <div className="text-center mb-8 flex-shrink-0">
-        <span className="block text-xs font-semibold uppercase tracking-widest mb-2 font-body" style={{ color: "#757e98" }}>
-          El Equipo
-        </span>
-        <h2 className="text-3xl md:text-4xl font-heading font-bold" style={{ color: "#FAF9F6" }}>
-          Liderazgo y Experiencia
-        </h2>
-      </div>
+    <section
+      id="equipo"
+      ref={sectionRef}
+      // Tall enough to scroll through all cards
+      style={{ height: `${N * 100}vh`, backgroundColor: "#1B2C59" }}
+    >
+      {/* Sticky viewport — stays on screen while section scrolls */}
+      <div
+        className="sticky top-0 flex flex-col items-center justify-center overflow-hidden"
+        style={{ height: "100vh" }}
+      >
+        {/* Section header */}
+        <div className="text-center mb-10 z-10 relative">
+          <span className="block text-xs font-semibold uppercase tracking-widest mb-3 font-body" style={{ color: "#757e98" }}>
+            El Equipo
+          </span>
+          <h2 className="text-3xl md:text-4xl font-heading font-bold" style={{ color: "#FAF9F6" }}>
+            Liderazgo y Experiencia
+          </h2>
+        </div>
 
-      {/* Card stack */}
-      <div className="relative w-full max-w-xl mx-auto px-4 flex-shrink-0" style={{ height: "360px" }}>
-        {members.map((member, i) => {
-          const isActive = i === active;
-          const isBehind = i > active;
-          const isPast = i < active;
-          const zIndex = N - Math.abs(i - active);
-          const translateY = isBehind ? (i - active) * PEEK : isPast ? -420 : 0;
-          const scale = isBehind ? 1 - (i - active) * 0.04 : 1;
+        {/* Card stack */}
+        <div className="relative w-full max-w-xl mx-auto px-4" style={{ height: "420px" }}>
+          {members.map((member, i) => {
+            const isActive = i === activeIndex;
+            const isBehind = i > activeIndex;
+            const isPast = i < activeIndex;
+            const isExpanded = expanded === i && isActive;
 
-          return (
-            <div
-              key={i}
-              onClick={() => isActive && setExpanded(e => !e)}
-              style={{
-                position: "absolute", left: 0, right: 0, top: 0,
-                maxHeight: isActive && expanded ? "340px" : "320px",
-                overflowY: isActive && expanded ? "auto" : "hidden",
-                backgroundColor: i % 2 === 0 ? "#FAF9F6" : "#ffffff",
-                borderRadius: "20px", zIndex,
-                transform: `translateY(${translateY}px) scale(${scale})`,
-                transformOrigin: "top center",
-                transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s",
-                boxShadow: isActive ? "0 24px 60px rgba(0,0,0,0.35)" : "0 8px 24px rgba(0,0,0,0.20)",
-                cursor: isActive ? "pointer" : "default",
-              }}
-            >
-              {/* Card header */}
-              <div className="flex items-center gap-5 p-6 pb-0">
-                <div className="flex-shrink-0 rounded-full flex items-center justify-center"
-                  style={{ width: "64px", height: "64px", backgroundColor: "rgba(27,44,89,0.10)" }}>
-                  {member.photo
-                    ? <img src={member.photo} alt={member.name} className="w-full h-full rounded-full object-cover" />
-                    : <span style={{ fontSize: "22px", fontFamily: "Roboto Slab,serif", fontWeight: 700, color: "#1B2C59" }}>{member.name.charAt(0)}</span>
-                  }
+            // Stack offset: cards behind peek out below
+            const stackOffset = isBehind ? (i - activeIndex) * PEEK : 0;
+            // Past cards slide up and out
+            const pastOffset = isPast ? -440 : 0;
+            const scale = isBehind ? 1 - (i - activeIndex) * 0.04 : 1;
+            const zIndex = N - Math.abs(i - activeIndex);
+
+            return (
+              <div
+                key={i}
+                onClick={() => isActive && setExpanded(isExpanded ? null : i)}
+                style={{
+                  position: "absolute",
+                  left: 0, right: 0,
+                  top: 0,
+                  height: isExpanded ? "auto" : "380px",
+                  maxHeight: isExpanded ? "80vh" : "380px",
+                  overflowY: isExpanded ? "auto" : "hidden",
+                  backgroundColor: i % 2 === 0 ? "#FAF9F6" : "#ffffff",
+                  borderRadius: "20px",
+                  zIndex,
+                  transform: `translateY(${stackOffset + pastOffset}px) scale(${scale})`,
+                  transformOrigin: "top center",
+                  transition: "transform 0.5s cubic-bezier(0.4,0,0.2,1), max-height 0.4s ease, box-shadow 0.3s",
+                  boxShadow: isActive
+                    ? "0 24px 60px rgba(0,0,0,0.35)"
+                    : "0 8px 24px rgba(0,0,0,0.20)",
+                  cursor: isActive ? "pointer" : "default",
+                }}
+              >
+                {/* Collapsed view — always visible */}
+                <div className="flex items-center gap-5 p-7 pb-0">
+                  {/* Photo placeholder */}
+                  <div
+                    className="flex-shrink-0 rounded-full flex items-center justify-center"
+                    style={{ width: "72px", height: "72px", backgroundColor: "#1B2C59", opacity: 0.10 }}
+                  >
+                    {member.photo ? (
+                      <img src={member.photo} alt={member.name} className="w-full h-full rounded-full object-cover" />
+                    ) : (
+                      <span style={{ fontSize: "26px", fontFamily: "Roboto Slab, serif", fontWeight: 700, color: "#1B2C59", opacity: 1 }}>
+                        {member.name.charAt(0)}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p style={{ fontSize: "11px", fontFamily: "Poppins, sans-serif", fontWeight: 600, color: "#a1a7b7", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>
+                      {member.role}
+                    </p>
+                    <h3 style={{ fontSize: "20px", fontFamily: "Roboto Slab, serif", fontWeight: 700, color: "#1B2C59", lineHeight: 1.2 }}>
+                      {member.name}
+                    </h3>
+                  </div>
+                  {isActive && (
+                    <div style={{ flexShrink: 0, color: "#1B2C59", opacity: 0.35, fontSize: "12px", fontFamily: "Poppins, sans-serif" }}>
+                      {isExpanded ? <X size={18} /> : <span>↓ Leer más</span>}
+                    </div>
+                  )}
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p style={{ fontSize: "10px", fontFamily: "Poppins,sans-serif", fontWeight: 600, color: "#a1a7b7", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "3px" }}>
-                    {member.role}
-                  </p>
-                  <h3 style={{ fontSize: "18px", fontFamily: "Roboto Slab,serif", fontWeight: 700, color: "#1B2C59", lineHeight: 1.2 }}>
-                    {member.name}
-                  </h3>
-                </div>
-                {isActive && (
-                  <span style={{ fontSize: "11px", fontFamily: "Poppins,sans-serif", color: "#1B2C59", opacity: 0.35 }}>
-                    {expanded ? <X size={16}/> : "↓ leer más"}
-                  </span>
+
+                {/* Divider */}
+                <div style={{ margin: "20px 28px 0", height: "1px", backgroundColor: "#1B2C59", opacity: 0.08 }} />
+
+                {/* Teaser — 2 lines visible when collapsed */}
+                <p style={{
+                  padding: "16px 28px 28px",
+                  fontSize: "14px", fontFamily: "Poppins, sans-serif",
+                  color: "#495579", lineHeight: 1.65,
+                  display: "-webkit-box",
+                  WebkitLineClamp: isExpanded ? "none" : 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: isExpanded ? "visible" : "hidden",
+                }}>
+                  {member.bio}
+                </p>
+
+                {/* Scroll hint dots — only on active, collapsed */}
+                {isActive && !isExpanded && (
+                  <div className="flex justify-center gap-1.5 pb-5">
+                    {members.map((_, di) => (
+                      <div key={di} style={{
+                        width: "6px", height: "6px", borderRadius: "50%",
+                        backgroundColor: di === activeIndex ? "#1B2C59" : "#1B2C59",
+                        opacity: di === activeIndex ? 0.7 : 0.15,
+                      }} />
+                    ))}
+                  </div>
                 )}
               </div>
-              <div style={{ margin: "14px 24px 0", height: "1px", backgroundColor: "#1B2C59", opacity: 0.08 }} />
-              <p style={{
-                padding: "12px 24px 20px",
-                fontSize: "13px", fontFamily: "Poppins,sans-serif", color: "#495579", lineHeight: 1.65,
-                display: "-webkit-box",
-                WebkitLineClamp: isActive && expanded ? "none" : 3,
-                WebkitBoxOrient: "vertical",
-                overflow: isActive && expanded ? "visible" : "hidden",
-              }}>
-                {member.bio}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Navigation */}
-      <div className="flex items-center gap-6 mt-8 flex-shrink-0">
-        <button onClick={prev} disabled={active === 0}
-          className="rounded-full flex items-center justify-center transition-all"
-          style={{ width: "40px", height: "40px", border: "1px solid rgba(250,249,246,0.25)", color: "#FAF9F6", opacity: active === 0 ? 0.25 : 0.8 }}>
-          <ChevronLeft size={18} />
-        </button>
-        <div className="flex gap-2">
-          {members.map((_, i) => (
-            <button key={i} onClick={() => { setActive(i); setExpanded(false); }}
-              style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: i === active ? "#FAF9F6" : "rgba(250,249,246,0.25)", transition: "all 0.3s" }} />
-          ))}
+            );
+          })}
         </div>
-        <button onClick={next} disabled={active === N - 1}
-          className="rounded-full flex items-center justify-center transition-all"
-          style={{ width: "40px", height: "40px", border: "1px solid rgba(250,249,246,0.25)", color: "#FAF9F6", opacity: active === N - 1 ? 0.25 : 0.8 }}>
-          <ChevronRight size={18} />
-        </button>
+
+        {/* Scroll hint */}
+        <p className="mt-8 font-body text-xs" style={{ color: "rgba(250,249,246,0.30)", letterSpacing: "0.08em" }}>
+          {activeIndex < N - 1 ? "Sigue haciendo scroll ↓" : "Haz clic en la tarjeta para leer el perfil completo"}
+        </p>
       </div>
     </section>
   );
