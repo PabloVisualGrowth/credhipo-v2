@@ -29,10 +29,10 @@ const steps = [
   },
 ];
 
-const R = 28;
-const GAP = 12;
-const ABOVE_H = 150;
-const BELOW_H = 150;
+// Fixed heights — guarantees alignment across all columns
+const ABOVE = 148;   // px — reserved for "above" text
+const CIRC = 56;     // px — circle diameter (w-14 h-14)
+const BELOW = 148;   // px — reserved for "below" text
 
 const Storytelling = () => {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -62,135 +62,160 @@ const Storytelling = () => {
 
           {/* ── DESKTOP ── */}
           <div className="hidden md:block">
-            <div
-              className="relative w-full"
-              style={{ height: `${ABOVE_H + R * 2 + BELOW_H}px` }}
-            >
-              {/* Straight horizontal line through circle centers */}
-              <div
-                className="absolute left-0 right-0"
-                style={{
-                  top: `${ABOVE_H + R}px`,
-                  height: "2px",
-                  backgroundColor: "rgba(250,249,246,0.30)",
-                }}
-              />
+            {/*
+              Layout:
+                Row 1 (height=ABOVE): above-text for steps with above=true
+                Row 2 (height=CIRC):  horizontal line + circles
+                Row 3 (height=BELOW): below-text for steps with above=false
+              All 5 columns (4 steps + star) use flex-1, ensuring equal width.
+            */}
+            <div className="flex">
 
-              {/* 4 evenly spaced nodes at 12.5%, 37.5%, 62.5%, 87.5% */}
+              {/* Steps */}
               {steps.map((step, i) => {
-                const lefts = ["12.5%", "37.5%", "62.5%", "87.5%"];
                 const isHov = hovered === i;
                 return (
-                  <div key={i}>
-                    {/* Circle */}
+                  <div
+                    key={i}
+                    className="flex-1 flex flex-col items-center"
+                    onMouseEnter={() => setHovered(i)}
+                    onMouseLeave={() => setHovered(null)}
+                    style={{ cursor: "default" }}
+                  >
+                    {/* ABOVE text area */}
                     <div
-                      style={{
-                        position: "absolute",
-                        left: lefts[i],
-                        top: `${ABOVE_H}px`,
-                        width: `${R * 2}px`,
-                        height: `${R * 2}px`,
-                        transform: "translateX(-50%)",
+                      className="flex flex-col justify-end items-center pb-4 px-2 text-center"
+                      style={{ height: `${ABOVE}px` }}
+                    >
+                      {step.above && (
+                        <>
+                          <p style={{
+                            fontFamily: "Roboto Slab, serif", fontWeight: 700,
+                            fontSize: "14px", lineHeight: 1.35, marginBottom: "8px",
+                            color: isHov ? "#FAF9F6" : "rgba(250,249,246,0.88)",
+                            transition: "color 0.3s",
+                          }}>
+                            {step.title}
+                          </p>
+                          {step.tasks.map((t, j) => (
+                            <p key={j} style={{
+                              fontFamily: "Poppins, sans-serif",
+                              fontSize: "11.5px", lineHeight: 1.6, marginBottom: "3px",
+                              color: isHov ? "rgba(250,249,246,0.68)" : "rgba(250,249,246,0.38)",
+                              transition: "color 0.3s",
+                            }}>{t}</p>
+                          ))}
+                        </>
+                      )}
+                    </div>
+
+                    {/* Circle row */}
+                    <div
+                      className="flex items-center justify-center relative"
+                      style={{ height: `${CIRC}px`, width: "100%" }}
+                    >
+                      {/* Horizontal line segment — full width, vertically centered */}
+                      <div style={{
+                        position: "absolute", top: "50%", left: 0, right: 0,
+                        height: "2px",
+                        backgroundColor: "rgba(250,249,246,0.25)",
+                        transform: "translateY(-50%)",
+                        zIndex: 0,
+                      }} />
+                      {/* Circle */}
+                      <div style={{
+                        width: `${CIRC}px`, height: `${CIRC}px`,
                         borderRadius: "50%",
                         border: "2px solid rgba(250,249,246,0.65)",
-                        backgroundColor: isHov ? "rgba(250,249,246,0.16)" : "rgba(27,44,89,0.6)",
+                        backgroundColor: isHov ? "rgba(250,249,246,0.16)" : "rgba(27,44,89,0.70)",
                         boxShadow: isHov ? "0 0 0 10px rgba(250,249,246,0.06), 0 0 28px rgba(250,249,246,0.12)" : "none",
                         display: "flex", alignItems: "center", justifyContent: "center",
                         transition: "all 0.3s ease",
-                        cursor: "default", zIndex: 2,
-                      }}
-                      onMouseEnter={() => setHovered(i)}
-                      onMouseLeave={() => setHovered(null)}
-                    >
-                      <span style={{
-                        fontSize: "13px", fontWeight: 700,
-                        fontFamily: "Poppins, sans-serif",
-                        letterSpacing: "0.06em",
-                        color: isHov ? "#FAF9F6" : "rgba(250,249,246,0.75)",
-                        transition: "color 0.3s ease",
+                        position: "relative", zIndex: 1, flexShrink: 0,
                       }}>
-                        {step.number}
-                      </span>
+                        <span style={{
+                          fontSize: "13px", fontWeight: 700,
+                          fontFamily: "Poppins, sans-serif",
+                          letterSpacing: "0.06em",
+                          color: isHov ? "#FAF9F6" : "rgba(250,249,246,0.75)",
+                          transition: "color 0.3s",
+                        }}>
+                          {step.number}
+                        </span>
+                      </div>
                     </div>
 
-                    {/* Text — above or below */}
+                    {/* BELOW text area */}
                     <div
-                      style={{
-                        position: "absolute",
-                        left: lefts[i],
-                        ...(step.above
-                          ? { top: `${ABOVE_H - GAP}px`, transform: "translate(-50%, -100%)" }
-                          : { top: `${ABOVE_H + R * 2 + GAP}px`, transform: "translateX(-50%)" }
-                        ),
-                        width: "190px",
-                        textAlign: "center",
-                        cursor: "default", zIndex: 2,
-                      }}
-                      onMouseEnter={() => setHovered(i)}
-                      onMouseLeave={() => setHovered(null)}
+                      className="flex flex-col justify-start items-center pt-4 px-2 text-center"
+                      style={{ height: `${BELOW}px` }}
                     >
-                      <p style={{
-                        fontFamily: "Roboto Slab, serif", fontWeight: 700,
-                        fontSize: "14px", lineHeight: 1.35, marginBottom: "8px",
-                        color: isHov ? "#FAF9F6" : "rgba(250,249,246,0.88)",
-                        transition: "color 0.3s ease",
-                      }}>
-                        {step.title}
-                      </p>
-                      {step.tasks.map((task, j) => (
-                        <p key={j} style={{
-                          fontFamily: "Poppins, sans-serif",
-                          fontSize: "11.5px", lineHeight: 1.6,
-                          marginBottom: "3px",
-                          color: isHov ? "rgba(250,249,246,0.68)" : "rgba(250,249,246,0.38)",
-                          transition: "color 0.3s ease",
-                        }}>
-                          {task}
-                        </p>
-                      ))}
+                      {!step.above && (
+                        <>
+                          <p style={{
+                            fontFamily: "Roboto Slab, serif", fontWeight: 700,
+                            fontSize: "14px", lineHeight: 1.35, marginBottom: "8px",
+                            color: isHov ? "#FAF9F6" : "rgba(250,249,246,0.88)",
+                            transition: "color 0.3s",
+                          }}>
+                            {step.title}
+                          </p>
+                          {step.tasks.map((t, j) => (
+                            <p key={j} style={{
+                              fontFamily: "Poppins, sans-serif",
+                              fontSize: "11.5px", lineHeight: 1.6, marginBottom: "3px",
+                              color: isHov ? "rgba(250,249,246,0.68)" : "rgba(250,249,246,0.38)",
+                              transition: "color 0.3s",
+                            }}>{t}</p>
+                          ))}
+                        </>
+                      )}
                     </div>
                   </div>
                 );
               })}
 
-              {/* Star at the end of the line */}
-              <div style={{
-                position: "absolute", left: "96%", top: `${ABOVE_H}px`,
-                width: `${R * 2}px`, height: `${R * 2}px`,
-                transform: "translateX(-50%)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                zIndex: 2,
-              }}>
-                <svg width="48" height="48" viewBox="0 0 52 52" fill="none">
-                  <polygon
-                    points="26,4 31.5,19 48,19 35,29.5 40,45 26,35 12,45 17,29.5 4,19 20.5,19"
-                    fill="rgba(250,249,246,0.10)"
-                    stroke="rgba(250,249,246,0.60)"
-                    strokeWidth="1.5"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+              {/* Star column */}
+              <div className="flex-1 flex flex-col items-center">
+                {/* Above: empty */}
+                <div style={{ height: `${ABOVE}px` }} />
+                {/* Star in circle row */}
+                <div className="flex items-center justify-center relative" style={{ height: `${CIRC}px`, width: "100%" }}>
+                  <div style={{
+                    position: "absolute", top: "50%", left: 0, right: "50%",
+                    height: "2px",
+                    backgroundColor: "rgba(250,249,246,0.25)",
+                    transform: "translateY(-50%)",
+                  }} />
+                  <div style={{ position: "relative", zIndex: 1 }}>
+                    <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none">
+                      <polygon
+                        points="28,5 33.5,20 50,20 37,30 42,47 28,37 14,47 19,30 6,20 22.5,20"
+                        fill="rgba(250,249,246,0.10)"
+                        stroke="rgba(250,249,246,0.60)"
+                        strokeWidth="1.5"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                {/* Below: final message */}
+                <div className="flex flex-col justify-start items-center pt-4 px-2 text-center" style={{ height: `${BELOW}px` }}>
+                  <p style={{
+                    fontFamily: "Roboto Slab, serif", fontWeight: 700,
+                    fontSize: "13px", lineHeight: 1.5,
+                    color: "rgba(250,249,246,0.80)",
+                  }}>
+                    ¡Empieza a disfrutar de tu nuevo hogar!
+                  </p>
+                </div>
               </div>
-              {/* Star label */}
-              <div style={{
-                position: "absolute", left: "96%",
-                top: `${ABOVE_H + R * 2 + GAP}px`,
-                transform: "translateX(-50%)",
-                width: "160px", textAlign: "center", zIndex: 2,
-              }}>
-                <p style={{
-                  fontFamily: "Roboto Slab, serif", fontWeight: 700,
-                  fontSize: "12px", lineHeight: 1.5,
-                  color: "rgba(250,249,246,0.78)",
-                }}>
-                  ¡Empieza a disfrutar de tu nuevo hogar!
-                </p>
-              </div>
+
             </div>
           </div>
 
-          {/* ── MOBILE: vertical ── */}
-          <div className="md:hidden">
+          {/* ── MOBILE ── */}
+          <div className="md:hidden space-y-0">
             {steps.map((step, i) => (
               <div key={i} className="flex gap-5">
                 <div className="flex flex-col items-center flex-shrink-0" style={{ width: "52px" }}>
@@ -208,21 +233,19 @@ const Storytelling = () => {
                     <div style={{ flex: 1, minHeight: "28px", margin: "6px 0", width: "2px", backgroundColor: "rgba(250,249,246,0.20)" }} />
                   )}
                 </div>
-                <div style={{ paddingBottom: i < steps.length - 1 ? "28px" : "8px", paddingTop: "12px" }}>
+                <div style={{ paddingBottom: i < steps.length - 1 ? "24px" : "8px", paddingTop: "12px" }}>
                   <p style={{ fontFamily: "Roboto Slab, serif", fontWeight: 700, fontSize: "15px", color: "rgba(250,249,246,0.88)", marginBottom: "8px" }}>
                     {step.title}
                   </p>
-                  {step.tasks.map((task, j) => (
-                    <p key={j} style={{ fontFamily: "Poppins, sans-serif", fontSize: "13px", color: "rgba(250,249,246,0.48)", lineHeight: 1.6, marginBottom: "4px" }}>
-                      {task}
-                    </p>
+                  {step.tasks.map((t, j) => (
+                    <p key={j} style={{ fontFamily: "Poppins, sans-serif", fontSize: "13px", color: "rgba(250,249,246,0.48)", lineHeight: 1.6, marginBottom: "4px" }}>{t}</p>
                   ))}
                 </div>
               </div>
             ))}
             <div className="flex flex-col items-center gap-3 mt-8">
-              <svg width="40" height="40" viewBox="0 0 52 52" fill="none">
-                <polygon points="26,4 31.5,19 48,19 35,29.5 40,45 26,35 12,45 17,29.5 4,19 20.5,19"
+              <svg width="40" height="40" viewBox="0 0 56 56" fill="none">
+                <polygon points="28,5 33.5,20 50,20 37,30 42,47 28,37 14,47 19,30 6,20 22.5,20"
                   fill="rgba(250,249,246,0.10)" stroke="rgba(250,249,246,0.60)" strokeWidth="1.5" strokeLinejoin="round" />
               </svg>
               <p style={{ fontFamily: "Roboto Slab, serif", fontWeight: 700, fontSize: "17px", color: "rgba(250,249,246,0.85)", textAlign: "center" }}>
