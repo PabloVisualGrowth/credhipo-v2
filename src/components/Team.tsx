@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import dreamHome from "@/assets/dream-home.jpg";
 
 const members = [
   {
@@ -48,11 +49,16 @@ const Team = () => {
     <section
       id="equipo"
       ref={sectionRef}
-      style={{ height: `${(N + 1) * 100}vh`, backgroundColor: "#1B2C59" }}
+      style={{ height: `${(N + 1) * 100}vh`, position: "relative" }}
     >
+      {/* Background — same as Storytelling */}
+      <div className="absolute inset-0 bg-cover bg-center bg-fixed" style={{ backgroundImage: `url(${dreamHome})` }}>
+        <div className="absolute inset-0 bg-primary/95" />
+      </div>
+
       <div
         className="sticky top-0 flex flex-col items-center justify-center overflow-hidden"
-        style={{ height: "100vh" }}
+        style={{ height: "100vh", position: "relative", zIndex: 1 }}
       >
         {/* Section header */}
         <div className="text-center mb-10 z-10 relative">
