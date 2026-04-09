@@ -66,17 +66,7 @@ const ProfileRow = ({ profile, index }: { profile: string; index: number }) => {
         {profile}
       </p>
 
-      {/* Arrow — slides in on hover */}
-      <span
-        className="flex-shrink-0 self-center transition-all duration-300 pt-1"
-        style={{
-          opacity: hovered ? 1 : 0,
-          transform: hovered ? "translateX(0)" : "translateX(-8px)",
-          color: "#1B2C59",
-        }}
-      >
-        <ArrowRight className="h-5 w-5" />
-      </span>
+
     </div>
   );
 };
