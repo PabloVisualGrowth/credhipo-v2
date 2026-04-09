@@ -40,11 +40,32 @@ const steps = [
   },
 ];
 
-// Node positions (cx) as percentages of SVG width
-// SVG viewBox="0 0 1000 120", nodes at y=60
-const NODE_CX = [125, 375, 625, 875];
-const NODE_CY = 60;
-const R = 28;
+// Fixed heights for layout alignment
+const ABOVE_H = 160; // px reserved for "above" text area
+const CIRCLE_H = 56; // px — matches w-14 h-14
+const BELOW_H = 160; // px reserved for "below" text area
+
+const TextBlock = ({ step, isHovered }: { step: typeof steps[0]; isHovered: boolean }) => (
+  <div className="text-center px-2">
+    <h3
+      className="font-heading font-bold mb-2 leading-snug transition-colors duration-300"
+      style={{ fontSize: "14px", color: isHovered ? "#FAF9F6" : "rgba(250,249,246,0.85)" }}
+    >
+      {step.title}
+    </h3>
+    <ul className="space-y-1.5">
+      {step.tasks.map((task, j) => (
+        <li
+          key={j}
+          className="font-body leading-snug transition-colors duration-300"
+          style={{ fontSize: "12px", color: isHovered ? "rgba(250,249,246,0.70)" : "rgba(250,249,246,0.42)" }}
+        >
+          {task}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 const Storytelling = () => {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -75,153 +96,150 @@ const Storytelling = () => {
             </p>
           </div>
 
-          {/* ── DESKTOP: SVG wavy dashed path + nodes ── */}
+          {/* ── DESKTOP timeline ── */}
           <div className="hidden md:block">
-            <div className="relative w-full" style={{ paddingBottom: "180px", paddingTop: "160px" }}>
+            {/* Wrapper: fixed total height so SVG and grid align perfectly */}
+            <div
+              className="relative w-full"
+              style={{ height: `${ABOVE_H + CIRCLE_H + BELOW_H}px` }}
+            >
 
-              {/* SVG path layer */}
+              {/* SVG: only the wavy dashed path, no circles */}
+              {/* Positioned to sit exactly over the circle row */}
               <svg
-                className="absolute left-0 right-0 mx-auto"
-                style={{ top: "140px", width: "100%", height: "120px", overflow: "visible" }}
-                viewBox="0 0 1000 120"
+                className="absolute left-0 w-full"
+                style={{
+                  top: `${ABOVE_H}px`,
+                  height: `${CIRCLE_H}px`,
+                  overflow: "visible",
+                  pointerEvents: "none",
+                }}
+                viewBox="0 0 1000 56"
                 preserveAspectRatio="none"
               >
-                {/* Dashed wavy cubic bezier path through node centers */}
-                {/* Path goes: node1 (125,60) → node2 (375,60) → node3 (625,60) → node4 (875,60) */}
-                {/* Add vertical wave between each pair */}
+                {/*
+                  Nodes at x = 12.5%, 37.5%, 62.5%, 87.5% of 1000 = 125, 375, 625, 875
+                  Center y = 28 (half of 56)
+                  Wave amplitude ±18px: odd gaps go up (y=10), even gaps go down (y=46)
+                */}
                 <path
-                  d="M 125,60 C 200,60 300,20 375,60 C 450,100 550,100 625,60 C 700,20 800,20 875,60"
+                  d="M 125,28 C 210,28 290,10 375,28 C 460,46 540,46 625,28 C 710,10 790,10 875,28"
                   fill="none"
-                  stroke="rgba(250,249,246,0.30)"
-                  strokeWidth="2.5"
-                  strokeDasharray="10 8"
+                  stroke="rgba(250,249,246,0.28)"
+                  strokeWidth="2"
+                  strokeDasharray="8 7"
                   strokeLinecap="round"
                 />
-
-                {/* Node circles */}
-                {NODE_CX.map((cx, i) => {
-                  const isHovered = hovered === i;
-                  return (
-                    <g
-                      key={i}
-                      style={{ cursor: "default" }}
-                      onMouseEnter={() => setHovered(i)}
-                      onMouseLeave={() => setHovered(null)}
-                    >
-                      {/* Outer glow ring */}
-                      {isHovered && (
-                        <circle
-                          cx={cx} cy={NODE_CY} r={R + 12}
-                          fill="none"
-                          stroke="rgba(250,249,246,0.10)"
-                          strokeWidth="8"
-                        />
-                      )}
-                      {/* Circle */}
-                      <circle
-                        cx={cx} cy={NODE_CY} r={R}
-                        fill={isHovered ? "rgba(250,249,246,0.18)" : "transparent"}
-                        stroke="rgba(250,249,246,0.70)"
-                        strokeWidth="2"
-                        style={{ transition: "fill 0.3s ease" }}
-                      />
-                      {/* Number */}
-                      <text
-                        x={cx} y={NODE_CY + 5}
-                        textAnchor="middle"
-                        fontSize="13"
-                        fontWeight="700"
-                        fontFamily="Poppins, sans-serif"
-                        fill={isHovered ? "rgba(250,249,246,1)" : "rgba(250,249,246,0.75)"}
-                        style={{ transition: "fill 0.3s ease", letterSpacing: "0.05em" }}
-                      >
-                        {steps[i].number}
-                      </text>
-                    </g>
-                  );
-                })}
               </svg>
 
-              {/* Text labels — above or below each node */}
-              {steps.map((step, i) => {
-                const isAbove = step.above;
-                const isHovered = hovered === i;
-                // Position each label at 12.5%, 37.5%, 62.5%, 87.5% of width
-                const lefts = ["12.5%", "37.5%", "62.5%", "87.5%"];
-                return (
+              {/* 4-column grid for nodes and text — overlays the SVG */}
+              <div className="absolute inset-0 grid grid-cols-4">
+                {steps.map((step, i) => (
                   <div
                     key={i}
-                    className="absolute"
-                    style={{
-                      left: lefts[i],
-                      transform: "translateX(-50%)",
-                      width: "200px",
-                      top: isAbove ? "0px" : "calc(140px + 120px + 8px)",
-                      textAlign: "center",
-                    }}
+                    className="flex flex-col items-center cursor-default"
                     onMouseEnter={() => setHovered(i)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <h3
-                      className="font-heading font-bold mb-3 leading-snug transition-colors duration-300"
+                    {/* Above text area (fixed height) */}
+                    <div
+                      className="flex items-end justify-center pb-3 w-full"
+                      style={{ height: `${ABOVE_H}px` }}
+                    >
+                      {step.above && <TextBlock step={step} isHovered={hovered === i} />}
+                    </div>
+
+                    {/* Circle — HTML div, always perfectly round */}
+                    <div
+                      className="flex-shrink-0 rounded-full flex items-center justify-center transition-all duration-300"
                       style={{
-                        fontSize: "14px",
-                        color: isHovered ? "#FAF9F6" : "rgba(250,249,246,0.85)",
+                        width: `${CIRCLE_H}px`,
+                        height: `${CIRCLE_H}px`,
+                        border: "2px solid rgba(250,249,246,0.65)",
+                        backgroundColor: hovered === i ? "rgba(250,249,246,0.15)" : "transparent",
+                        boxShadow: hovered === i
+                          ? "0 0 0 10px rgba(250,249,246,0.06), 0 0 28px rgba(250,249,246,0.10)"
+                          : "none",
                       }}
                     >
-                      {step.title}
-                    </h3>
-                    <ul className="space-y-2">
-                      {step.tasks.map((task, j) => (
-                        <li
-                          key={j}
-                          className="font-body leading-snug transition-colors duration-300"
-                          style={{
-                            fontSize: "12px",
-                            color: isHovered ? "rgba(250,249,246,0.72)" : "rgba(250,249,246,0.42)",
-                          }}
-                        >
-                          {task}
-                        </li>
-                      ))}
-                    </ul>
+                      <span
+                        className="font-body font-bold transition-colors duration-300"
+                        style={{
+                          fontSize: "13px",
+                          letterSpacing: "0.05em",
+                          color: hovered === i ? "#FAF9F6" : "rgba(250,249,246,0.70)",
+                        }}
+                      >
+                        {step.number}
+                      </span>
+                    </div>
+
+                    {/* Below text area (fixed height) */}
+                    <div
+                      className="flex items-start justify-center pt-3 w-full"
+                      style={{ height: `${BELOW_H}px` }}
+                    >
+                      {!step.above && <TextBlock step={step} isHovered={hovered === i} />}
+                    </div>
                   </div>
-                );
-              })}
+                ))}
+              </div>
+            </div>
+
+            {/* Final message */}
+            <div className="flex flex-col items-center mt-8 gap-3">
+              {/* Diamond / star icon */}
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <polygon
+                  points="16,2 20,12 30,12 22,19 25,30 16,23 7,30 10,19 2,12 12,12"
+                  fill="none"
+                  stroke="rgba(250,249,246,0.55)"
+                  strokeWidth="1.5"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <p
+                className="font-heading font-bold text-center"
+                style={{ fontSize: "20px", color: "rgba(250,249,246,0.85)" }}
+              >
+                ¡Empieza a disfrutar de tu nuevo hogar!
+              </p>
             </div>
           </div>
 
-          {/* ── MOBILE: vertical list ── */}
-          <div className="md:hidden space-y-8">
+          {/* ── MOBILE: vertical dashed list ── */}
+          <div className="md:hidden">
             {steps.map((step, i) => (
               <div key={i} className="flex gap-5">
-                <div className="flex flex-col items-center flex-shrink-0">
+                <div className="flex flex-col items-center flex-shrink-0" style={{ width: "48px" }}>
                   <div
-                    className="w-12 h-12 rounded-full border-2 flex items-center justify-center"
-                    style={{ borderColor: "rgba(250,249,246,0.60)", backgroundColor: "transparent" }}
+                    className="rounded-full border-2 flex items-center justify-center flex-shrink-0"
+                    style={{
+                      width: "48px", height: "48px",
+                      borderColor: "rgba(250,249,246,0.60)",
+                      backgroundColor: "transparent",
+                    }}
                   >
-                    <span className="text-xs font-bold font-body text-primary-foreground/80">
+                    <span className="font-body font-bold text-primary-foreground/70" style={{ fontSize: "12px" }}>
                       {step.number}
                     </span>
                   </div>
                   {i < steps.length - 1 && (
                     <div
-                      className="flex-1 my-2"
                       style={{
-                        width: "2px",
+                        flex: 1, minHeight: "32px", marginTop: "6px", marginBottom: "6px",
                         borderLeft: "2px dashed rgba(250,249,246,0.25)",
-                        minHeight: "32px",
                       }}
                     />
                   )}
                 </div>
-                <div className="pb-2 pt-2">
+                <div className="pb-8 pt-2">
                   <h3 className="font-heading font-bold mb-2 text-primary-foreground" style={{ fontSize: "15px" }}>
                     {step.title}
                   </h3>
                   <ul className="space-y-1.5">
                     {step.tasks.map((task, j) => (
-                      <li key={j} className="font-body text-primary-foreground/55" style={{ fontSize: "13px" }}>
+                      <li key={j} className="font-body text-primary-foreground/50" style={{ fontSize: "13px" }}>
                         {task}
                       </li>
                     ))}
@@ -229,6 +247,16 @@ const Storytelling = () => {
                 </div>
               </div>
             ))}
+            {/* Mobile final message */}
+            <div className="flex flex-col items-center mt-4 gap-3">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <polygon points="16,2 20,12 30,12 22,19 25,30 16,23 7,30 10,19 2,12 12,12"
+                  fill="none" stroke="rgba(250,249,246,0.55)" strokeWidth="1.5" strokeLinejoin="round" />
+              </svg>
+              <p className="font-heading font-bold text-center" style={{ fontSize: "18px", color: "rgba(250,249,246,0.85)" }}>
+                ¡Empieza a disfrutar de tu nuevo hogar!
+              </p>
+            </div>
           </div>
 
         </BlurFade>
