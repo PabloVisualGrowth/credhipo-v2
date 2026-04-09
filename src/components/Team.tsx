@@ -40,10 +40,11 @@ const Team = () => {
       const sectionH = el.offsetHeight;
       const scrolled = -rect.top; // px scrolled into section
       if (scrolled < 0) { setActiveIndex(0); return; }
-      // Each card gets an equal slice of scrollable distance
-      const sliceH = (sectionH - window.innerHeight) / (N - 1 || 1);
-      const idx = Math.min(Math.floor(scrolled / sliceH), N - 1);
-      setActiveIndex(idx);
+      // Each card activates after 1 viewport height of scroll; last card gets extra dwell
+      const wh = window.innerHeight;
+      const breaks = Array.from({ length: N }, (_, i) => i * wh);
+      const idx = breaks.filter(b => scrolled >= b).length - 1;
+      setActiveIndex(Math.min(idx, N - 1));
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -57,7 +58,7 @@ const Team = () => {
       id="equipo"
       ref={sectionRef}
       // Tall enough to scroll through all cards
-      style={{ height: `${N * 100}vh`, backgroundColor: "#1B2C59" }}
+      style={{ height: `${(N + 1) * 100}vh`, backgroundColor: "#1B2C59" }}
     >
       {/* Sticky viewport — stays on screen while section scrolls */}
       <div
