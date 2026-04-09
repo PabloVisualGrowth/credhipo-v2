@@ -5,7 +5,7 @@ import logoMain from "@/assets/logo-main.png";
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [isInHero, setIsInHero] = useState(true);
+  const [isInHero, setIsInHero] = useState(window.scrollY < window.innerHeight - 80);
   const [isDarkSection, setIsDarkSection] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
