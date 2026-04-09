@@ -148,57 +148,10 @@ const About = () => {
                   Porque cuando se trata de tu vivienda o tu inversión, la confianza no es opcional.
                 </p>
               </div>
-
-              {/* Toggle button */}
-              <Button
-                variant="outline"
-                className="rounded-full gap-2"
-                onClick={() => setShowTeam(!showTeam)}
-              >
-                {showTeam ? (
-                  <>Ocultar equipo <ChevronUp className="h-4 w-4" /></>
-                ) : (
-                  <>Conócenos <ChevronDown className="h-4 w-4" /></>
-                )}
-              </Button>
-            </div>
-          </div>
-
-          {/* Team cards - collapsible */}
-          <div
-            className={`overflow-hidden transition-all duration-500 ease-in-out ${
-              showTeam ? "max-h-[1000px] opacity-100 mt-12 lg:mt-16" : "max-h-0 opacity-0 mt-0"
-            }`}
-          >
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {team.map((member, i) => (
-                <div
-                  key={i}
-                  className="group bg-card border border-border/50 rounded-2xl p-6 flex flex-col items-center text-center hover:shadow-elevated hover:border-primary/20 transition-all duration-300 cursor-pointer"
-                  onClick={() => setSelectedMember(member)}
-                >
-                  <div className="w-24 h-24 rounded-full bg-primary/10 border-2 border-primary/20 flex items-center justify-center mb-4 group-hover:border-primary/50 transition-colors">
-                    {member.photo ? (
-                      <img src={member.photo} alt={member.name} className="w-full h-full rounded-full object-cover" />
-                    ) : (
-                      <span className="text-2xl font-heading font-bold text-primary/40">{member.name.charAt(0)}</span>
-                    )}
-                  </div>
-                  <h4 className="font-heading font-bold text-foreground text-lg mb-1">{member.name}</h4>
-                  <p className="text-sm text-secondary font-medium mb-4">{member.role}</p>
-                  <Button variant="outline" size="sm" className="rounded-full text-xs mt-auto">
-                    Ver perfil
-                  </Button>
-                </div>
-              ))}
             </div>
           </div>
         </BlurFade>
       </div>
-
-      {selectedMember && (
-        <TeamModal member={selectedMember} onClose={() => setSelectedMember(null)} />
-      )}
     </section>
   );
 };
