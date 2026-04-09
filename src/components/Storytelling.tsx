@@ -114,9 +114,9 @@ const Storytelling = () => {
                       className="flex items-center justify-center relative"
                       style={{ height: `${CIRC}px`, width: "100%" }}
                     >
-                      {/* Horizontal line segment — full width, vertically centered */}
+                      {/* Horizontal line segment — starts from circle center on first step */}
                       <div style={{
-                        position: "absolute", top: "50%", left: 0, right: 0,
+                        position: "absolute", top: "50%", left: i === 0 ? "50%" : 0, right: 0,
                         height: "2px",
                         backgroundColor: "rgba(250,249,246,0.25)",
                         transform: "translateY(-50%)",
@@ -204,7 +204,7 @@ const Storytelling = () => {
                       markerEnd="url(#arrowhead)"
                     />
                   </svg>
-                  <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ position: "relative", zIndex: 1 }} className="star-shine-container">
                     <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none" className="animate-pulse-star">
                       <polygon
                         points="28,5 33.5,20 50,20 37,30 42,47 28,37 14,47 19,30 6,20 22.5,20"
