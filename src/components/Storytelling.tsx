@@ -182,22 +182,16 @@ const Storytelling = () => {
                 {/* Star in circle row */}
                 <div className="flex items-center justify-center relative" style={{ height: `${CIRC}px`, width: "100%" }}>
                   <div style={{
-                    position: "absolute", top: "50%", left: 0, right: "50%",
+                    position: "absolute", top: "50%", left: 0, right: `calc(50% + ${CIRC / 2 + 6}px)`,
                     height: "2px",
                     backgroundColor: "rgba(250,249,246,0.25)",
                     transform: "translateY(-50%)",
                   }} />
                   <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {/* Solid rect behind star to cover the line */}
-                    <div style={{
-                      position: "absolute",
-                      width: `${CIRC - 8}px`, height: `${CIRC - 8}px`,
-                      backgroundColor: "#172447",
-                    }} />
-                    <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none" style={{ position: "relative", zIndex: 1 }}>
+                    <svg width={CIRC} height={CIRC} viewBox="0 0 56 56" fill="none">
                       <polygon
                         points="28,5 33.5,20 50,20 37,30 42,47 28,37 14,47 19,30 6,20 22.5,20"
-                        fill="#172447"
+                        fill="none"
                         stroke="rgba(250,249,246,0.65)"
                         strokeWidth="1.8"
                         strokeLinejoin="round"
